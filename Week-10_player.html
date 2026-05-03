@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Player</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 16px; background: #f9f9f9; }
+  h2 { color: #333; font-size: 1em; }
+  audio { width: 100%; margin-bottom: 16px; }
+  .segment { padding: 10px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; display: flex; gap: 12px; }
+  .segment:hover { background: #e8f4ff; }
+  .segment.active { background: #cce5ff; font-weight: bold; }
+  .time { color: #888; font-size: 0.85em; min-width: 45px; padding-top: 2px; white-space: nowrap; }
+  .text { color: #222; line-height: 1.5; }
+</style>
+</head>
+<body>
+<h2>📖 Week-10.mp3</h2>
+<audio id="player" controls src="https://drive.google.com/uc?export=download&id=1XmMVpx1HOr4Ue97PsThhf0eu0jcNErCc"></audio>
+<div id="script"></div>
+<script>
+const segments = [
+{start: 0.0, text: '10 Week One Day'},
+{start: 7.0, text: 'Nose A long nose'},
+{start: 13.0, text: 'Not Not Always'},
+{start: 17.0, text: 'Note Make a note of'},
+{start: 21.0, text: 'Now Until Now'},
+{start: 26.0, text: 'Number Count the number of pupils'},
+{start: 31.0, text: 'Nose A kind nurse'},
+{start: 35.0, text: 'O\'clock The 7 o\'clock train'},
+{start: 40.0, text: 'Ove A quarter of a cake'},
+{start: 44.0, text: 'Ove Three miles off'},
+{start: 48.0, text: 'Office Go to the office'},
+{start: 55.0, text: 'Nose Don\'t pick your nose'},
+{start: 60.0, text: 'Not Wealth Is Not Everything'},
+{start: 64.0, text: 'Note I Left the Note'},
+{start: 68.0, text: 'Now I am Leaving Just Now'},
+{start: 72.0, text: 'Number Seven Is My Favorite Number'},
+{start: 77.0, text: 'Nurse The Nurse Is Korean'},
+{start: 81.0, text: 'O\'clock Meet Me At 12 O\'clock'},
+{start: 86.0, text: 'Ove What\'s the title of the song?'},
+{start: 90.0, text: 'Ove The ships Tooth'},
+{start: 94.0, text: 'Office Bill Works In An Office'},
+{start: 103.0, text: '10 Week Two Day'},
+{start: 109.0, text: 'Often Often Come to See Me'},
+{start: 114.0, text: 'O\'odheer Oil Cooking Oil'},
+{start: 121.0, text: 'Okay Okay Okay'},
+{start: 126.0, text: 'Old An Old Coat'},
+{start: 129.0, text: 'On Bicycle On The Road'},
+{start: 133.0, text: 'Once Once A Week'},
+{start: 137.0, text: 'Only Eat Only Bread'},
+{start: 142.0, text: 'Open An Open Door'},
+{start: 147.0, text: 'Or Summer Or Winter'},
+{start: 152.0, text: 'Often Often I Miss Breakfast'},
+{start: 157.0, text: 'Oh Oh Sorry'},
+{start: 161.0, text: 'Oil Oil And Water Do Not Mix'},
+{start: 165.0, text: 'Okay That\'s Okay'},
+{start: 169.0, text: 'Old His uniform Is Old'},
+{start: 173.0, text: 'On They Are On The Table'},
+{start: 177.0, text: 'Once She Was An Actress Once'},
+{start: 182.0, text: 'Only You Are My Only Friend'},
+{start: 186.0, text: 'Open Open Your Mouth'},
+{start: 190.0, text: 'Number Seven Is My Favorite Number'},
+{start: 195.0, text: 'Open Your Mouth'},
+{start: 200.0, text: 'Open Your Mouth'},
+{start: 204.0, text: 'Open Your Mouth'},
+{start: 208.0, text: 'Open Your Mouth'},
+{start: 212.0, text: 'Open Your Mouth'},
+{start: 246.0, text: 'Open Your Mouth'},
+{start: 249.0, text: 'Open Your Mouth'},
+{start: 252.0, text: 'Open Your Mouth'},
+{start: 257.0, text: 'Open Your Mouth'},
+{start: 260.0, text: 'Open Your Mouth'},
+{start: 264.0, text: 'Open Your Mouth'},
+{start: 267.0, text: 'Open Your Mouth'},
+{start: 271.0, text: 'Pear. Where is the pear to the searing?'},
+{start: 275.62, text: 'Pants. Henry is putting on his pants.'},
+{start: 280.42, text: 'Paper. Paper tears easily.'},
+{start: 284.66, text: 'Pardon. I will not pardon you.'},
+{start: 289.46, text: 'Ten Week. Four Day.'},
+{start: 298.7, text: 'Parents. Respect my parents.'},
+{start: 303.88, text: 'Park. Walk in a park.'},
+{start: 307.88, text: 'Party. Hold a party.'},
+{start: 311.28, text: 'Pass. Pass the exam.'},
+{start: 315.08, text: 'Pay. Pay in cash.'},
+{start: 318.72, text: 'Peace. Love peace.'},
+{start: 322.32, text: 'Pear. A juicy pear.'},
+{start: 326.12, text: 'Pen. A fountain pen.'},
+{start: 330.1, text: 'Pencil. Right with a pencil.'},
+{start: 333.8, text: 'People. Many people.'},
+{start: 337.7, text: 'Parents. My parents live in Seoul.'},
+{start: 345.04, text: 'Park. Keep the park clean.'},
+{start: 348.88, text: 'Party. Welcome to our party.'},
+{start: 353.52, text: 'Pass. Please pass on.'},
+{start: 357.28, text: 'Pay. Can I pay later?'},
+{start: 361.2, text: 'Peace. They work for the world peace.'},
+{start: 365.64, text: 'Pear. These pears are very sweet.'},
+{start: 370.4, text: 'Pen. May I use your pen?'},
+{start: 374.0, text: 'Pencil. I like to draw with a pencil.'},
+{start: 378.8, text: 'People. People drink water every day.'},
+{start: 388.0, text: 'Ten Week. Five Day.'},
+{start: 393.84, text: 'Piano. Practice at the piano.'},
+{start: 398.24, text: 'Pick. Pick flowers.'},
+{start: 402.0, text: 'Pick Nick. A picnic in the park.'},
+{start: 406.04, text: 'Picture. Draw a picture.'},
+{start: 409.88, text: 'Peace. A piece of bread.'},
+{start: 413.48, text: 'Pig. Make a pig of oneself.'},
+{start: 417.96, text: 'Pilot. An old pilot.'},
+{start: 421.52, text: 'Pen. A safety pen.'},
+{start: 425.32, text: 'Pine. A pine forest.'},
+{start: 429.12, text: 'Pink. A pink dress.'},
+{start: 436.04, text: 'Piano. I can play the piano.'},
+{start: 440.68, text: 'Pick. Grapes pick easily.'},
+{start: 444.52, text: 'Pick Nick. This is the best place for a picnic.'},
+{start: 449.48, text: 'Picture. Jenny likes to draw a picture.'},
+{start: 454.12, text: 'Peace. Bill is eating a piece of pie.'},
+{start: 458.84, text: 'Pig. This pig is very fat.'},
+{start: 463.12, text: 'Pilot. I want to become a pilot.'},
+{start: 468.0, text: 'Pen. The pen scratched my arm.'},
+{start: 472.08, text: 'Pine. Pines are green.'},
+{start: 476.04, text: 'Pink. You wore a pink shirt.'}
+];
+const player = document.getElementById('player');
+const container = document.getElementById('script');
+segments.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'segment';
+  div.id = 'seg-' + i;
+  div.innerHTML = `<span class="time">${formatTime(seg.start)}</span><span class="text">${seg.text}</span>`;
+  div.onclick = () => { player.currentTime = seg.start; player.play(); };
+  container.appendChild(div);
+});
+function formatTime(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+player.addEventListener('timeupdate', () => {
+  const current = player.currentTime;
+  segments.forEach((seg, i) => {
+    const next = segments[i+1];
+    const el = document.getElementById('seg-' + i);
+    if (current >= seg.start && (!next || current < next.start)) {
+      el.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else { el.classList.remove('active'); }
+  });
+});
+</script>
+</body>
+</html>

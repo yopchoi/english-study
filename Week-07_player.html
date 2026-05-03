@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Player</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 16px; background: #f9f9f9; }
+  h2 { color: #333; font-size: 1em; }
+  audio { width: 100%; margin-bottom: 16px; }
+  .segment { padding: 10px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; display: flex; gap: 12px; }
+  .segment:hover { background: #e8f4ff; }
+  .segment.active { background: #cce5ff; font-weight: bold; }
+  .time { color: #888; font-size: 0.85em; min-width: 45px; padding-top: 2px; white-space: nowrap; }
+  .text { color: #222; line-height: 1.5; }
+</style>
+</head>
+<body>
+<h2>📖 Week-07.mp3</h2>
+<audio id="player" controls src="https://drive.google.com/uc?export=download&id=18RzHiAvWsjV8OMKWyjB-2CX1roKMzBaP"></audio>
+<div id="script"></div>
+<script>
+const segments = [
+{start: 0.0, text: '7 Weeks, One Day'},
+{start: 9.92, text: 'Heart, A Kind Heart'},
+{start: 14.16, text: 'Heavy, A Heavy Bag'},
+{start: 18.4, text: 'Hello, Say Hello'},
+{start: 22.0, text: 'Help, Help with Homework'},
+{start: 26.64, text: 'Hen, Henslay Eggs'},
+{start: 30.72, text: 'Here, Come Here'},
+{start: 34.4, text: 'Hi, Hi There'},
+{start: 37.76, text: 'Hide, Hide Behind a Tree'},
+{start: 42.0, text: 'Hi, A High Price'},
+{start: 45.68, text: 'Hiking, A Hiking Trail'},
+{start: 47.84, text: 'Heart, You Have a Warm Heart'},
+{start: 55.44, text: 'Heavy, It Is a Heavy Stone'},
+{start: 59.68, text: 'Hello, Hello Henry'},
+{start: 63.76, text: 'Help, I\'ll Help You'},
+{start: 67.28, text: 'Hen, The Hen has Three Chicks'},
+{start: 71.68, text: 'Here, I have many Friends Here'},
+{start: 76.24, text: 'Hi, Hi Jenny, You Look Great'},
+{start: 80.96, text: 'Hide, The Thief Is Hiding'},
+{start: 84.96, text: 'Hi, The Mountain Is High'},
+{start: 89.04, text: 'Hiking, The Man Is Hiking'},
+{start: 92.96, text: '7 Weeks, Today'},
+{start: 101.52, text: 'Hi, Hi Hail The Top of a Hill'},
+{start: 109.6, text: 'Hit, Hit a Home Run'},
+{start: 113.44, text: 'Hold, Hold an Arm'},
+{start: 117.2, text: 'Hold, Dig a Hole'},
+{start: 120.88, text: 'Holiday, A National Holiday'},
+{start: 125.04, text: 'Home, A Happy Home'},
+{start: 127.04, text: 'Hope. Hope to be a teacher.'},
+{start: 131.52, text: 'House. A garden house.'},
+{start: 135.52, text: 'Horse. Ride a horse.'},
+{start: 139.6, text: 'Hospital. Go to the hospital.'},
+{start: 143.84, text: 'Hill. There is a big tree on the hill.'},
+{start: 152.12, text: 'Hit. My brother hit me.'},
+{start: 157.12, text: 'Hold. Hold the rope.'},
+{start: 161.12, text: 'Hole. The dog is digging a hole.'},
+{start: 165.12, text: 'Holiday. Sunday is a holiday.'},
+{start: 169.12, text: 'Home. I walked home.'},
+{start: 173.12, text: 'Hope. Teenagers are our hope.'},
+{start: 178.12, text: 'Hose. The flower is being hosed down.'},
+{start: 183.12, text: 'Horse. A horse likes carrots.'},
+{start: 187.12, text: 'Hospital. Henry is in the hospital.'},
+{start: 196.12, text: 'Seven week. Three day.'},
+{start: 202.12, text: 'Hot. Hot coffee.'},
+{start: 205.12, text: 'Hotel. Stay at a hotel.'},
+{start: 209.12, text: 'Hour. Half an hour.'},
+{start: 213.12, text: 'House. A large house.'},
+{start: 217.12, text: 'How. How come?'},
+{start: 220.12, text: 'Hundred. Several hundred.'},
+{start: 224.12, text: 'Hungry. Be hungry all day.'},
+{start: 228.12, text: 'Hurry. Hurry home.'},
+{start: 232.12, text: 'Hurt. Hurt one\'s feelings.'},
+{start: 236.12, text: 'I. I understand.'},
+{start: 243.12, text: 'Hot. It is hot today.'},
+{start: 247.12, text: 'Hotel. Jenny works at a hotel.'},
+{start: 251.12, text: 'Hour. I jog for an hour in the morning.'},
+{start: 256.12, text: 'House. This house is ours.'},
+{start: 260.12, text: 'How. How was your weekend?'},
+{start: 265.12, text: 'Hundred. I have $200.'},
+{start: 269.12, text: 'Hungry. I\'m hungry.'},
+{start: 273.12, text: 'Hurry. Don\'t hurry.'},
+{start: 276.12, text: 'Hurt. I hurt my thumb.'},
+{start: 280.12, text: 'I. I know.'},
+{start: 284.12, text: 'Seven week. Four day.'},
+{start: 294.12, text: 'Ice. Cold ice.'},
+{start: 298.12, text: 'Idea. A good idea.'},
+{start: 302.12, text: 'If. If I had wings.'},
+{start: 306.12, text: 'Il. Be ill and bad.'},
+{start: 310.12, text: 'In. A bird in a cage.'},
+{start: 314.12, text: 'Ink. Black ink.'},
+{start: 318.12, text: 'Interest. Show interest in it.'},
+{start: 322.12, text: 'Into. Jump into the pool.'},
+{start: 326.12, text: 'Introduce. Introduce my friend.'},
+{start: 331.12, text: 'Island. A small island.'},
+{start: 338.12, text: 'Ice. She slipped on the ice.'},
+{start: 343.12, text: 'Idea. Good idea.'},
+{start: 347.12, text: 'If. If you like her, give this book to her.'},
+{start: 352.12, text: 'Il. Bill is ill.'},
+{start: 356.12, text: 'In. The cat wants in.'},
+{start: 360.12, text: 'Ink. The ink bottle is empty.'},
+{start: 364.12, text: 'Interest. She\'s lost interest in tennis.'},
+{start: 369.12, text: 'Into. They went into the tent.'},
+{start: 373.12, text: 'Introduce. Let me introduce myself.'},
+{start: 378.12, text: 'Island. Japan is an island country.'},
+{start: 387.12, text: 'Seven week. Five day.'},
+{start: 393.12, text: 'It. It\'s me.'},
+{start: 398.12, text: 'Job. Finish a job.'},
+{start: 402.12, text: 'Join. Join the basketball team.'},
+{start: 406.12, text: 'Juice. Orange juice.'},
+{start: 410.12, text: 'Jump. Jump into the sea.'},
+{start: 414.12, text: 'Jungle. Go into the jungle.'},
+{start: 418.12, text: 'Just. Just half past six.'},
+{start: 422.12, text: 'Keep. Keep to the right.'},
+{start: 426.12, text: 'Key. Make a key.'},
+{start: 429.12, text: 'Kick. Kick a ball.'},
+{start: 436.12, text: 'It. It\'s a difficult question.'},
+{start: 440.12, text: 'Job. What\'s your job?'},
+{start: 444.12, text: 'Join. I want to join the band.'},
+{start: 449.12, text: '. Juice. I ordered a glass of juice.'},
+{start: 453.12, text: 'Jump. The lion jumps over a stick.'},
+{start: 457.12, text: 'Jungle. The lion is king of the jungle.'},
+{start: 462.12, text: 'Just. He is just a child.'},
+{start: 466.12, text: 'Keep. Keep your resolution.'},
+{start: 470.12, text: 'Key. I\'ve lost my key.'},
+{start: 475.12, text: 'Kick. She kicked him on the knee.'}
+];
+const player = document.getElementById('player');
+const container = document.getElementById('script');
+segments.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'segment';
+  div.id = 'seg-' + i;
+  div.innerHTML = `<span class="time">${formatTime(seg.start)}</span><span class="text">${seg.text}</span>`;
+  div.onclick = () => { player.currentTime = seg.start; player.play(); };
+  container.appendChild(div);
+});
+function formatTime(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+player.addEventListener('timeupdate', () => {
+  const current = player.currentTime;
+  segments.forEach((seg, i) => {
+    const next = segments[i+1];
+    const el = document.getElementById('seg-' + i);
+    if (current >= seg.start && (!next || current < next.start)) {
+      el.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else { el.classList.remove('active'); }
+  });
+});
+</script>
+</body>
+</html>

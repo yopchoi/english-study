@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Player</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 16px; background: #f9f9f9; }
+  h2 { color: #333; font-size: 1em; }
+  audio { width: 100%; margin-bottom: 16px; }
+  .segment { padding: 10px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; display: flex; gap: 12px; }
+  .segment:hover { background: #e8f4ff; }
+  .segment.active { background: #cce5ff; font-weight: bold; }
+  .time { color: #888; font-size: 0.85em; min-width: 45px; padding-top: 2px; white-space: nowrap; }
+  .text { color: #222; line-height: 1.5; }
+</style>
+</head>
+<body>
+<h2>📖 Week-04.mp3</h2>
+<audio id="player" controls src="https://drive.google.com/uc?export=download&id=1y6zUfDtD2GzlkbsOan0mimk3KCilKCP4"></audio>
+<div id="script"></div>
+<script>
+const segments = [
+{start: 0.0, text: '4 Weeks. One Day.'},
+{start: 11.0, text: 'Course. Change the course.'},
+{start: 15.0, text: 'Cousin. A distant cousin.'},
+{start: 19.0, text: 'Cover. Cover a table with a tablecloth.'},
+{start: 24.0, text: 'Cow. Raise a cow.'},
+{start: 28.0, text: 'Crayon. Draw with crayons.'},
+{start: 33.0, text: 'Cream. Chocolate creams.'},
+{start: 37.0, text: 'Cross. Cross the street.'},
+{start: 41.0, text: 'Cry. Cry for joy.'},
+{start: 45.0, text: 'Cup. A paper cup.'},
+{start: 49.0, text: 'Curtain. A shower curtain.'},
+{start: 57.0, text: 'Course. I plan to take a computer course.'},
+{start: 63.0, text: 'Cousin. This is my cousin.'},
+{start: 67.0, text: 'Cover. Cover the child with a blanket.'},
+{start: 72.0, text: 'Cow. The cow jumps over the fence.'},
+{start: 77.0, text: 'Crayon. Alley draws with crayons.'},
+{start: 82.0, text: 'Cream. I like cream color.'},
+{start: 86.0, text: 'Cross. He made the sign of the cross.'},
+{start: 91.0, text: 'Cry. The infant began to cry.'},
+{start: 96.0, text: 'Cup. There are cups on the table.'},
+{start: 100.0, text: 'Curtain. Bill is opening the curtains.'},
+{start: 110.0, text: '4 Weeks. Two Day.'},
+{start: 116.0, text: 'Cut. A deep cut.'},
+{start: 119.0, text: 'Dad. Mom and dad.'},
+{start: 123.0, text: 'Dance. Dance to the music.'},
+{start: 127.0, text: 'Danger. A lot of danger.'},
+{start: 132.0, text: 'Dark. A dark night.'},
+{start: 136.0, text: 'Date. Fix the date.'},
+{start: 140.0, text: 'Daughter. An only daughter.'},
+{start: 142.0, text: 'Day. A rainy day.'},
+{start: 147.0, text: 'Dead. Play dead.'},
+{start: 151.0, text: 'Deep. Deep in the forest.'},
+{start: 158.0, text: 'Cut. I had my haircut.'},
+{start: 163.0, text: 'Dad. This man is Jenny\'s dad.'},
+{start: 168.0, text: 'Dance. Bill likes to dance.'},
+{start: 173.0, text: 'Danger. He is in danger.'},
+{start: 177.0, text: 'Dark. It is already dark.'},
+{start: 182.0, text: 'Date. What date is it today?'},
+{start: 186.0, text: 'Daughter. She is Mr. Brown\'s daughter.'},
+{start: 191.0, text: 'Day. He stayed at home all day.'},
+{start: 195.0, text: 'Dad. He was found dead.'},
+{start: 200.0, text: 'Deep. The sea is very deep.'},
+{start: 209.0, text: '4 Week. Three Day.'},
+{start: 215.0, text: 'Dear. A herd of deer.'},
+{start: 219.0, text: 'Desk. Study at a desk.'},
+{start: 223.0, text: 'Dial. Turn a dial.'},
+{start: 227.0, text: 'Diary. Write a diary.'},
+{start: 232.0, text: 'Dictionary. An English Korean dictionary.'},
+{start: 237.0, text: 'Die. Die young.'},
+{start: 241.0, text: 'Dinner. Invite to dinner.'},
+{start: 245.0, text: 'Dirty. A dirty face.'},
+{start: 248.0, text: 'Dish. A dish of meat.'},
+{start: 253.0, text: 'Do. Do one\'s homework.'},
+{start: 260.0, text: 'Dear. The deer is in the forest.'},
+{start: 265.0, text: 'Desk. The dog is under the desk.'},
+{start: 270.0, text: 'Dial. Turn the dial of the radio.'},
+{start: 274.0, text: 'Diary. I keep a diary every day.'},
+{start: 279.0, text: 'Dictionary. The dictionary sells well.'},
+{start: 284.0, text: 'Die. Man must die.'},
+{start: 288.0, text: 'Dinner. Dinner is ready.'},
+{start: 292.0, text: 'Dirty. The dog is dirty.'},
+{start: 296.0, text: 'Dish. Dishes are in the kitchen.'},
+{start: 301.0, text: 'Do. Do your best.'},
+{start: 309.0, text: '4 Week. Four Day.'},
+{start: 315.0, text: 'Doctor. Consult the doctor.'},
+{start: 320.0, text: 'Dog. A clever dog.'},
+{start: 324.0, text: 'Doll. Buy a doll.'},
+{start: 327.0, text: 'Dollar. Spend $100.'},
+{start: 332.0, text: 'Dolphin. A bright dolphin.'},
+{start: 337.0, text: 'Door. Lock a door.'},
+{start: 341.0, text: 'Down. Go down a hill.'},
+{start: 345.0, text: 'Draw. Draw the curtain.'},
+{start: 349.0, text: 'Dream. A wonderful dream.'},
+{start: 352.0, text: 'Dress. A white dress.'},
+{start: 359.0, text: 'Doctor. He is a doctor.'},
+{start: 364.0, text: 'Dog. The dog is barking.'},
+{start: 368.0, text: 'Doll. Ali has a new doll.'},
+{start: 373.0, text: 'Dollar. It is $10.'},
+{start: 377.0, text: 'Dolphin. I like dolphins.'},
+{start: 381.0, text: 'Door. Push the door.'},
+{start: 385.0, text: 'Down. Don\'t look down.'},
+{start: 389.0, text: 'Draw. Let\'s draw the pig.'},
+{start: 393.0, text: 'Dream. His dream came true.'},
+{start: 398.0, text: 'Dress. This dress is nice.'},
+{start: 401.0, text: '4 Week. Five Day.'},
+{start: 412.0, text: 'Drink. Drink a cup of coffee.'},
+{start: 417.0, text: 'Drive. Drive a car.'},
+{start: 421.0, text: 'Drop. Drop the price.'},
+{start: 425.0, text: 'Drum. Beat a drum.'},
+{start: 428.0, text: 'Dry. Dry air.'},
+{start: 433.0, text: 'Duck. Ducks quack.'},
+{start: 437.0, text: 'Ear. Pick one\'s ears.'},
+{start: 441.0, text: 'Early. Get up early.'},
+{start: 445.0, text: 'Earth. Live on the earth.'},
+{start: 449.0, text: 'East. East of the city.'},
+{start: 452.0, text: 'Drink. Drink lots of water.'},
+{start: 456.0, text: 'Drive. They enjoy the drive.'},
+{start: 461.0, text: 'Drop. I dropped my wallet somewhere.'},
+{start: 466.0, text: 'Drum. He is playing a drum.'},
+{start: 471.0, text: 'Dry. My hands are dry now.'},
+{start: 475.0, text: 'Duck. This duck is cute.'},
+{start: 479.0, text: 'Ear. Rabbits have big ears.'},
+{start: 483.0, text: 'Early. I get up early.'},
+{start: 487.0, text: 'Earth. The earth is round.'},
+{start: 492.0, text: 'East. The sun rises in the east.'},
+{start: 496.0, text: 'East. The sun rises in the east.'}
+];
+const player = document.getElementById('player');
+const container = document.getElementById('script');
+segments.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'segment';
+  div.id = 'seg-' + i;
+  div.innerHTML = `<span class="time">${formatTime(seg.start)}</span><span class="text">${seg.text}</span>`;
+  div.onclick = () => { player.currentTime = seg.start; player.play(); };
+  container.appendChild(div);
+});
+function formatTime(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+player.addEventListener('timeupdate', () => {
+  const current = player.currentTime;
+  segments.forEach((seg, i) => {
+    const next = segments[i+1];
+    const el = document.getElementById('seg-' + i);
+    if (current >= seg.start && (!next || current < next.start)) {
+      el.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else { el.classList.remove('active'); }
+  });
+});
+</script>
+</body>
+</html>

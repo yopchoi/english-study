@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Player</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 16px; background: #f9f9f9; }
+  h2 { color: #333; font-size: 1em; }
+  audio { width: 100%; margin-bottom: 16px; }
+  .segment { padding: 10px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; display: flex; gap: 12px; }
+  .segment:hover { background: #e8f4ff; }
+  .segment.active { background: #cce5ff; font-weight: bold; }
+  .time { color: #888; font-size: 0.85em; min-width: 45px; padding-top: 2px; white-space: nowrap; }
+  .text { color: #222; line-height: 1.5; }
+</style>
+</head>
+<body>
+<h2>📖 Week-03.mp3</h2>
+<audio id="player" controls src="https://drive.google.com/uc?export=download&id=1rgH7t7fsm4jdrQna8-nPoia_Atwbs40s"></audio>
+<div id="script"></div>
+<script>
+const segments = [
+{start: 0.0, text: '3 Week One Day'},
+{start: 7.0, text: 'Can An Empty Can'},
+{start: 13.0, text: 'Candle Light a candle'},
+{start: 17.0, text: 'Candy Be Fond of Candy'},
+{start: 21.0, text: 'Cap A Baseball Cap'},
+{start: 26.0, text: 'Capital The Capital of Korea'},
+{start: 30.0, text: 'Captain The Captain of our team'},
+{start: 35.0, text: 'Car A Sleeping Car'},
+{start: 38.0, text: 'Card A Birthday Card'},
+{start: 42.0, text: 'Care The Care of a Baby'},
+{start: 46.0, text: 'Carey Carrier Box'},
+{start: 51.0, text: 'Candy You Can Come to Korea'},
+{start: 58.0, text: 'Candle We Need Three Candles'},
+{start: 63.0, text: 'Candy Bill Loves This Candy'},
+{start: 68.0, text: 'Cap How Much Is This Cap?'},
+{start: 72.0, text: 'Capital Soul Is The Capital of Korea'},
+{start: 77.0, text: 'Captain She Is the Captain of the Team'},
+{start: 82.0, text: 'Car The Car Is Nice'},
+{start: 86.0, text: 'Card She Has A Lot of Cards'},
+{start: 90.0, text: 'Care Take Care of Yourself'},
+{start: 95.0, text: 'Carey He Always Carey\'s A Camera'},
+{start: 100.0, text: '3 Week Two Day'},
+{start: 107.0, text: 'Case In This Case'},
+{start: 112.0, text: 'Cassette A Blank-Cassette Tape'},
+{start: 117.0, text: 'Cat Belle The Cat'},
+{start: 121.0, text: 'Catch Catch The Ball'},
+{start: 125.0, text: 'Sealing A Fly On The Sealing'},
+{start: 130.0, text: 'Center The Center of a City'},
+{start: 135.0, text: 'Chair Have A Chair'},
+{start: 139.0, text: 'Chalk A White Chalk'},
+{start: 143.0, text: 'Chance A Good Chance'},
+{start: 147.0, text: 'Change Change The Rules'},
+{start: 152.0, text: 'Case This Is A Jewel Case'},
+{start: 159.0, text: 'Cassette I Have A Cassette Recorder'},
+{start: 164.0, text: 'Cat The Cat Is Fat'},
+{start: 168.0, text: 'Catch Let\'s Catch Him'},
+{start: 173.0, text: 'Sealing This Room Has A Low Sealing'},
+{start: 178.0, text: 'Chair The vase Is in the center of the table'},
+{start: 183.0, text: 'Chair The dog Is on the chair'},
+{start: 188.0, text: 'Chalk I Need a Piece of Chalk'},
+{start: 192.0, text: 'Chance I Will Give You One More Chance'},
+{start: 198.0, text: 'Change Keep Your Change'},
+{start: 203.0, text: '3 Week Three Day'},
+{start: 210.0, text: 'Cheap A Cheap Dress'},
+{start: 215.0, text: 'Cheese Bread and Cheese'},
+{start: 219.0, text: 'Chicken A Roast Chicken'},
+{start: 223.0, text: 'Child A Little Child'},
+{start: 227.0, text: 'Chopstick Pick Up With Chopsticks'},
+{start: 231.0, text: 'Church Go To Church'},
+{start: 236.0, text: 'Circle Sit In A Circle'},
+{start: 241.0, text: 'City A Big City'},
+{start: 245.0, text: 'Class A Math Class'},
+{start: 249.0, text: 'Classmate Classmates In Elementary School'},
+{start: 255.0, text: 'Cheap The Computer Is Cheap'},
+{start: 262.0, text: 'Cheese Andy Is Eating Some Cheese'},
+{start: 267.0, text: 'Chicken How Much Is The Chicken?'},
+{start: 271.0, text: 'Child I\'m Looking For A Child'},
+{start: 276.0, text: 'Chopstick I Usually Use Chopsticks'},
+{start: 281.0, text: 'Church I Go To Church With My Family'},
+{start: 286.0, text: 'Circle Draw A Circle'},
+{start: 291.0, text: 'City Is That City Your Home Town?'},
+{start: 295.0, text: 'Class Bills Class Is Studying About Animals'},
+{start: 301.0, text: 'Classmate He\'s My Classmate'},
+{start: 306.0, text: '3 Week Four Day'},
+{start: 313.0, text: 'Clean A Room'},
+{start: 319.0, text: 'Climb A Mountain'},
+{start: 324.0, text: 'Clock An Alarm Clock'},
+{start: 328.0, text: 'Close A Close Friend'},
+{start: 332.0, text: 'Close A Door'},
+{start: 335.0, text: 'Close Put On Clothes'},
+{start: 339.0, text: 'Cloud A White Cloud'},
+{start: 343.0, text: 'Club Join A Club'},
+{start: 347.0, text: 'Coat A Warm Coat'},
+{start: 351.0, text: 'Coffee A Cup Of Coffee'},
+{start: 355.0, text: 'Coin Coincanger'},
+{start: 361.0, text: 'Clean The Wall Is Clean'},
+{start: 367.0, text: 'Climb Monkeys Climb Well'},
+{start: 371.0, text: 'Clock The Clock Has Start'},
+{start: 375.0, text: 'Close Close The Fox Follows Close Behind'},
+{start: 381.0, text: 'Close The Door Please'},
+{start: 384.0, text: 'Close He Is Making Clothes'},
+{start: 389.0, text: 'Cloud The Cloud Hit The Sun'},
+{start: 393.0, text: 'Club I Join The Tenest Club'},
+{start: 398.0, text: 'Coat He Is Wearing A Black Coat'},
+{start: 402.0, text: 'Coffee Don\'t Drink Coffee'},
+{start: 407.0, text: 'Coin My Hobby Is To Collect Coins'},
+{start: 412.0, text: '3 Week Five Day'},
+{start: 416.0, text: '3 Week Five Day'},
+{start: 421.0, text: 'Cold A Cold Drink'},
+{start: 426.0, text: 'Color A Dark Color'},
+{start: 430.0, text: 'Come Come To See Me'},
+{start: 434.0, text: 'Computer A Computer Game'},
+{start: 438.0, text: 'Cook A Head Cook'},
+{start: 442.0, text: 'Cool Cool Water'},
+{start: 445.0, text: 'Copy Copy The Book'},
+{start: 449.0, text: 'Corner Building On The Corner'},
+{start: 453.0, text: 'Count Count To Ten'},
+{start: 457.0, text: 'Country Live In The Country'},
+{start: 463.0, text: 'Cold It\'s Cold'},
+{start: 469.0, text: 'Color I Like Blue Color'},
+{start: 472.0, text: 'Come Come To My Birthday Party'},
+{start: 476.0, text: 'Computer He Is Playing A Computer Game'},
+{start: 481.0, text: 'Cook Andy Is A Cook'},
+{start: 485.0, text: 'Cool It\'s Getting Cool'},
+{start: 489.0, text: 'Copy Copy This Page'},
+{start: 493.0, text: 'Corner Bill Stood On The Corner'},
+{start: 498.0, text: 'Count Let\'s Count From 1 To 10'},
+{start: 502.0, text: 'Country Russia Is A Big Country'}
+];
+const player = document.getElementById('player');
+const container = document.getElementById('script');
+segments.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'segment';
+  div.id = 'seg-' + i;
+  div.innerHTML = `<span class="time">${formatTime(seg.start)}</span><span class="text">${seg.text}</span>`;
+  div.onclick = () => { player.currentTime = seg.start; player.play(); };
+  container.appendChild(div);
+});
+function formatTime(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+player.addEventListener('timeupdate', () => {
+  const current = player.currentTime;
+  segments.forEach((seg, i) => {
+    const next = segments[i+1];
+    const el = document.getElementById('seg-' + i);
+    if (current >= seg.start && (!next || current < next.start)) {
+      el.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else { el.classList.remove('active'); }
+  });
+});
+</script>
+</body>
+</html>

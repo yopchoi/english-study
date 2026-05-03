@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Player</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 16px; background: #f9f9f9; }
+  h2 { color: #333; font-size: 1em; }
+  audio { width: 100%; margin-bottom: 16px; }
+  .segment { padding: 10px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; display: flex; gap: 12px; }
+  .segment:hover { background: #e8f4ff; }
+  .segment.active { background: #cce5ff; font-weight: bold; }
+  .time { color: #888; font-size: 0.85em; min-width: 45px; padding-top: 2px; white-space: nowrap; }
+  .text { color: #222; line-height: 1.5; }
+</style>
+</head>
+<body>
+<h2>📖 Week-09.mp3</h2>
+<audio id="player" controls src="https://drive.google.com/uc?export=download&id=1GoxD1jZeWRvUyNXQ3LbNIFgrLKhci3m-"></audio>
+<div id="script"></div>
+<script>
+const segments = [
+{start: 0.0, text: '9 Weeks, One Day'},
+{start: 7.0, text: 'Man, Man\'s Heart'},
+{start: 13.0, text: 'Many, Many Friends'},
+{start: 17.0, text: 'Map, Draw a Map'},
+{start: 21.0, text: 'March, March through the streets'},
+{start: 26.0, text: 'Market, Shop at the Market'},
+{start: 30.0, text: 'Mary, Mary a Beautiful Lady'},
+{start: 35.0, text: 'Matter, A Little Matter'},
+{start: 39.0, text: 'May, Next May'},
+{start: 42.0, text: 'Meat, Cook Meat'},
+{start: 46.0, text: 'Metal, Award a Medal'},
+{start: 53.0, text: 'Man, That Man is Handsome'},
+{start: 58.0, text: 'Many, He has Many Nephews'},
+{start: 62.0, text: 'Map, Henry is looking at a Map'},
+{start: 67.0, text: 'March, He retired last March'},
+{start: 71.0, text: 'Market, The Market is Off'},
+{start: 75.0, text: 'Mary, She doesn\'t want to marry'},
+{start: 80.0, text: 'Matter, I looked over the matter'},
+{start: 84.0, text: 'May, It May rain tomorrow'},
+{start: 89.0, text: 'Meat, This Meat is Tough'},
+{start: 93.0, text: 'Metal, She won three Olympic Gold medals'},
+{start: 103.0, text: '9 Week, Two Day'},
+{start: 109.0, text: 'Meat, Meat a Friend of Mine'},
+{start: 113.0, text: 'Melon, A Slice of Melon'},
+{start: 117.0, text: 'Meter, Run a Hundred Meeters'},
+{start: 121.0, text: 'Middle, The Middle of the Road'},
+{start: 126.0, text: 'Milk, Fresh Milk'},
+{start: 129.0, text: 'Million, An Audience of Millions'},
+{start: 134.0, text: 'Minute, Five Minutes Past Three'},
+{start: 139.0, text: 'Mirror, Look in a Mirror'},
+{start: 144.0, text: 'Miss, Miss the Chance'},
+{start: 148.0, text: 'Model, A New Model'},
+{start: 155.0, text: 'Meat, We often Meat'},
+{start: 159.0, text: 'Melon, Melons are Juicy and Sweet'},
+{start: 164.0, text: 'Meter, The Snow is One Meter Deep'},
+{start: 169.0, text: 'Middle, She\'s Sat on the Middle Chair'},
+{start: 174.0, text: 'Milk, Milk is Healthy Food'},
+{start: 178.0, text: 'Million, Sixty Million People Live Here'},
+{start: 183.0, text: 'Minute, It Takes 15 Minutes on Foot'},
+{start: 188.0, text: 'Mirror, I\'m Looking for a Mirror'},
+{start: 192.0, text: 'Miss, Miss Grace, You are a Good Tutor'},
+{start: 197.0, text: 'Model, The Model is Tall and Handsome'},
+{start: 206.0, text: '9 Week, Three Day'},
+{start: 212.0, text: 'Mom, Mommy, A Boy and His Mom'},
+{start: 217.0, text: 'Money, Have some Money'},
+{start: 221.0, text: 'Monkey, A Spider Monkey'},
+{start: 225.0, text: 'Month, Last Month'},
+{start: 229.0, text: 'Moon, A Trip to the Moon'},
+{start: 233.0, text: 'Morning, From Morning till Evening'},
+{start: 238.0, text: 'Mother, Instead of my Mother'},
+{start: 242.0, text: 'Mountain, A High Mountain'},
+{start: 246.0, text: 'Mouth, A Pretty Mouth'},
+{start: 250.0, text: 'Move, Move the Table'},
+{start: 257.0, text: 'Mom, Mommy, I bought a Scar for my mom'},
+{start: 263.0, text: 'Money, I need more money to buy it'},
+{start: 268.0, text: 'Monkey, A Monkey has a Long Tale'},
+{start: 273.0, text: 'Month, There are 12 Months in a Year'},
+{start: 277.0, text: 'Moon, The Moon is Shining brightly'},
+{start: 282.0, text: 'Morning, I get up early every morning'},
+{start: 287.0, text: 'Mother, My Mother likes Flowers'},
+{start: 292.0, text: 'Mountain, She got Lost in the Mountains'},
+{start: 297.0, text: 'Mouth, Watch Your Mouth'},
+{start: 301.0, text: 'Move, Don\'t Move'},
+{start: 309.0, text: '9 Week, Four Day'},
+{start: 315.0, text: 'Movie, A Movie Star'},
+{start: 319.0, text: 'Mister, With the Help of Mister Kim'},
+{start: 324.0, text: 'Misses, Mister and Misses Kim'},
+{start: 329.0, text: 'Much, Much Rain'},
+{start: 333.0, text: 'Music, Classical Music'},
+{start: 337.0, text: 'Must, Needs Must Do'},
+{start: 341.0, text: 'Name, Call One\'s Name'},
+{start: 345.0, text: 'Animal, A Narrow River'},
+{start: 349.0, text: 'Near, Near the School'},
+{start: 353.0, text: 'Neck, A Short Neck'},
+{start: 359.0, text: 'Movie, They are Movie Stars'},
+{start: 364.0, text: 'Mister, May I Speak to Mister Kim?'},
+{start: 368.0, text: 'Misses, Mister and Misses Kim have two sons'},
+{start: 374.0, text: 'Much, Try Not to Talk to Much'},
+{start: 379.0, text: 'Music, The Music Sound Sweet'},
+{start: 383.0, text: 'Must, We Must conserve Forests'},
+{start: 388.0, text: 'Name, She wrote Her Name'},
+{start: 392.0, text: 'Narrow, The Corridor was Narrow and Long'},
+{start: 397.0, text: 'Near, His House is Very Near'},
+{start: 401.0, text: 'Neck, A Giraffe has a Long Neck'},
+{start: 410.0, text: '9 Week, Five Day'},
+{start: 415.0, text: 'Need, Need A Friend'},
+{start: 420.0, text: 'Never, Never Tell a Lie'},
+{start: 424.0, text: 'New, A New Address'},
+{start: 428.0, text: 'News, Good News'},
+{start: 432.0, text: 'Next, The Next House'},
+{start: 436.0, text: 'Nice, A Nice Song'},
+{start: 440.0, text: 'Night, Late at Night'},
+{start: 443.0, text: 'No, No Parking'},
+{start: 447.0, text: 'Noise, A Loud Noise'},
+{start: 451.0, text: 'North, North of the City'},
+{start: 458.0, text: 'Need, I Need A Rest'},
+{start: 462.0, text: 'Never, He Never Prayed'},
+{start: 466.0, text: 'New, Tell me Something New'},
+{start: 470.0, text: 'News, That\'s Great News'},
+{start: 474.0, text: 'Next, The Next Singer Came On'},
+{start: 478.0, text: 'Nice, Have A Nice Day'},
+{start: 482.0, text: 'Night, She Bades Every Night'},
+{start: 486.0, text: 'No, No Thanks'},
+{start: 490.0, text: 'Noise, A Noise Alarm the Dear'},
+{start: 495.0, text: 'North, Soul is North of Busan'}
+];
+const player = document.getElementById('player');
+const container = document.getElementById('script');
+segments.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'segment';
+  div.id = 'seg-' + i;
+  div.innerHTML = `<span class="time">${formatTime(seg.start)}</span><span class="text">${seg.text}</span>`;
+  div.onclick = () => { player.currentTime = seg.start; player.play(); };
+  container.appendChild(div);
+});
+function formatTime(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+player.addEventListener('timeupdate', () => {
+  const current = player.currentTime;
+  segments.forEach((seg, i) => {
+    const next = segments[i+1];
+    const el = document.getElementById('seg-' + i);
+    if (current >= seg.start && (!next || current < next.start)) {
+      el.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else { el.classList.remove('active'); }
+  });
+});
+</script>
+</body>
+</html>

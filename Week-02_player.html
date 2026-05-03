@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Player</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 16px; background: #f9f9f9; }
+  h2 { color: #333; font-size: 1em; }
+  audio { width: 100%; margin-bottom: 16px; }
+  .segment { padding: 10px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; display: flex; gap: 12px; }
+  .segment:hover { background: #e8f4ff; }
+  .segment.active { background: #cce5ff; font-weight: bold; }
+  .time { color: #888; font-size: 0.85em; min-width: 45px; padding-top: 2px; white-space: nowrap; }
+  .text { color: #222; line-height: 1.5; }
+</style>
+</head>
+<body>
+<h2>📖 Week-02.mp3</h2>
+<audio id="player" controls src="https://drive.google.com/uc?export=download&id=1HvAPBhWpE17irp6UoCmfFsdbMYxHWgIm"></audio>
+<div id="script"></div>
+<script>
+const segments = [
+{start: 0.0, text: '2 Week One Day'},
+{start: 7.0, text: 'Because, because it rained.'},
+{start: 14.0, text: 'Become, become a doctor.'},
+{start: 19.0, text: 'Bed, sleep on a bed.'},
+{start: 24.0, text: 'Before, before sunrise.'},
+{start: 29.0, text: 'Begin, begin a test.'},
+{start: 34.0, text: 'Behind, hide behind the door.'},
+{start: 39.0, text: 'Bell, ring a bell.'},
+{start: 43.0, text: 'Below, fall below zero.'},
+{start: 48.0, text: 'Bench, a bench in the park.'},
+{start: 52.0, text: 'Beside, sit down beside me.'},
+{start: 59.0, text: 'Because, I didn\'t go outside because it was raining.'},
+{start: 65.0, text: 'Become, I want to become a doctor.'},
+{start: 72.0, text: 'Bed, the coat is on the bed.'},
+{start: 77.0, text: 'Before, wash your hands before lunch.'},
+{start: 82.0, text: 'Begin, school begins at 9 a.m.'},
+{start: 88.0, text: 'Behind, the boy is behind the tree.'},
+{start: 93.0, text: 'Bell, the bell is ringing.'},
+{start: 97.0, text: 'Below, see below.'},
+{start: 102.0, text: 'Bench, the boy is sitting on the bench.'},
+{start: 107.0, text: 'Beside, alley is beside the desk.'},
+{start: 117.0, text: '2 Week, 2 Day.'},
+{start: 123.0, text: 'Between, a secret between you and me.'},
+{start: 128.0, text: 'Bicycle, ride a bicycle.'},
+{start: 133.0, text: 'Big, a big boy.'},
+{start: 137.0, text: 'Bird, fly a bird.'},
+{start: 141.0, text: 'Birthday, my 15th birthday.'},
+{start: 146.0, text: 'Black, black smoke.'},
+{start: 151.0, text: 'Blow, blow hard.'},
+{start: 155.0, text: 'Blue, a blue ocean.'},
+{start: 159.0, text: 'Board, electronic notice boards.'},
+{start: 164.0, text: 'Boat, get in a boat.'},
+{start: 172.0, text: 'Between, Henry is between the trees.'},
+{start: 177.0, text: 'Bicycle, riding a bicycle is my hobby.'},
+{start: 183.0, text: 'Big, this is a big stone.'},
+{start: 188.0, text: 'Bird, a bird is flying above the tree.'},
+{start: 193.0, text: 'Birthday, happy birthday, Bill.'},
+{start: 198.0, text: 'Black, she has black hair.'},
+{start: 203.0, text: 'Blow, suddenly the wind blows.'},
+{start: 208.0, text: 'Blue, the sky is blue.'},
+{start: 212.0, text: 'Board, it\'s a kind of board game.'},
+{start: 217.0, text: 'Boat, there is a boat on the lake.'},
+{start: 221.0, text: '2 Week,'},
+{start: 227.0, text: '3 Day.'},
+{start: 232.0, text: 'Body, in body and mind.'},
+{start: 237.0, text: 'Book, ride a book.'},
+{start: 241.0, text: 'Bottle, a bottle of milk.'},
+{start: 246.0, text: 'Bowl, a bowl of rice.'},
+{start: 250.0, text: 'Box, a light box.'},
+{start: 255.0, text: 'Boy, a boy student.'},
+{start: 260.0, text: 'Bread, cornbread.'},
+{start: 264.0, text: 'Break, break a cup.'},
+{start: 268.0, text: 'Breakfast, after breakfast.'},
+{start: 273.0, text: 'Bridge, go across a bridge.'},
+{start: 281.0, text: 'Body, wash your body.'},
+{start: 285.0, text: 'Book, alley is reading a book.'},
+{start: 290.0, text: 'Bottle, these bottles are empty.'},
+{start: 295.0, text: 'Bowl, put eggs in a bowl.'},
+{start: 299.0, text: 'Box, there is a pen in the box.'},
+{start: 304.0, text: 'Boy, the boy is watching TV.'},
+{start: 309.0, text: 'Bread, mom is baking the bread.'},
+{start: 314.0, text: 'Break, he didn\'t break your glass.'},
+{start: 318.0, text: 'Breakfast, I had a good breakfast.'},
+{start: 323.0, text: 'Bridge, cross the bridge.'},
+{start: 332.0, text: '2 Week, 4 Day.'},
+{start: 338.0, text: 'Bright, a bright star.'},
+{start: 342.0, text: 'Bring, bring umbrella.'},
+{start: 346.0, text: 'Brother, a blood brother.'},
+{start: 350.0, text: 'Brown, dark brown color.'},
+{start: 354.0, text: 'Brush, paint with a brush.'},
+{start: 359.0, text: 'Build, build a house.'},
+{start: 363.0, text: 'Burn, burn paper.'},
+{start: 367.0, text: 'Bus, a bus stop.'},
+{start: 372.0, text: 'Busy, a busy day.'},
+{start: 376.0, text: 'But, a cheap, a good camera.'},
+{start: 384.0, text: 'Bright, the moon is bright tonight.'},
+{start: 389.0, text: 'Bring, bring me a cup of tea.'},
+{start: 394.0, text: 'Brother, bill is my brother.'},
+{start: 398.0, text: 'Brown, his hair is brown.'},
+{start: 403.0, text: 'Brush, a dog is being brushed.'},
+{start: 408.0, text: 'Build, Henry builds a house.'},
+{start: 412.0, text: 'Burn, the stakes were burned.'},
+{start: 417.0, text: 'Bus, they are in the bus.'},
+{start: 421.0, text: 'Busy, she is very busy.'},
+{start: 426.0, text: 'But, I\'d like to, but I can\'t.'},
+{start: 435.0, text: '2 Week, 5 Day.'},
+{start: 441.0, text: 'Butter, peanut butter.'},
+{start: 446.0, text: 'Button, press a button.'},
+{start: 450.0, text: 'Buy, buy a necktie for my dad.'},
+{start: 455.0, text: 'Buy, stand by the gate.'},
+{start: 459.0, text: 'Buy, say goodbye.'},
+{start: 463.0, text: 'Calendar, hang a calendar.'},
+{start: 467.0, text: 'Cake, a cake especially decorated.'},
+{start: 472.0, text: 'Call, call a name.'},
+{start: 476.0, text: 'Camera, an old camera.'},
+{start: 479.0, text: 'Camp, a ski camp.'},
+{start: 486.0, text: 'Butter, spread butter on the bread.'},
+{start: 492.0, text: 'Button, she sold a button on a coat.'},
+{start: 497.0, text: 'Buy, I want to buy a melon.'},
+{start: 501.0, text: 'Buy, alley is by the fence.'},
+{start: 506.0, text: 'Buy, goodbye, see you tomorrow.'},
+{start: 511.0, text: 'Calendar, Andy is hanging up a calendar.'},
+{start: 516.0, text: 'Cake, Jenny is making a cake.'},
+{start: 520.0, text: 'Call, he gave me a call.'},
+{start: 524.0, text: 'Camera, the camera is on the bed.'},
+{start: 529.0, text: 'Camp, there is a camp near the forest.'}
+];
+const player = document.getElementById('player');
+const container = document.getElementById('script');
+segments.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'segment';
+  div.id = 'seg-' + i;
+  div.innerHTML = `<span class="time">${formatTime(seg.start)}</span><span class="text">${seg.text}</span>`;
+  div.onclick = () => { player.currentTime = seg.start; player.play(); };
+  container.appendChild(div);
+});
+function formatTime(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+player.addEventListener('timeupdate', () => {
+  const current = player.currentTime;
+  segments.forEach((seg, i) => {
+    const next = segments[i+1];
+    const el = document.getElementById('seg-' + i);
+    if (current >= seg.start && (!next || current < next.start)) {
+      el.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else { el.classList.remove('active'); }
+  });
+});
+</script>
+</body>
+</html>

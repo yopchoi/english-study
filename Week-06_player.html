@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Player</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 16px; background: #f9f9f9; }
+  h2 { color: #333; font-size: 1em; }
+  audio { width: 100%; margin-bottom: 16px; }
+  .segment { padding: 10px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; display: flex; gap: 12px; }
+  .segment:hover { background: #e8f4ff; }
+  .segment.active { background: #cce5ff; font-weight: bold; }
+  .time { color: #888; font-size: 0.85em; min-width: 45px; padding-top: 2px; white-space: nowrap; }
+  .text { color: #222; line-height: 1.5; }
+</style>
+</head>
+<body>
+<h2>📖 Week-06.mp3</h2>
+<audio id="player" controls src="https://drive.google.com/uc?export=download&id=1VD6JRZRwlnNq_Ph6QAJhrQUXIKPupaBH"></audio>
+<div id="script"></div>
+<script>
+const segments = [
+{start: 0.0, text: '6 Weeks, One Day'},
+{start: 8.08, text: 'Forget, Forget a Name'},
+{start: 14.68, text: 'Fork, Eat with a Fork'},
+{start: 18.58, text: 'Free, Free Time'},
+{start: 22.16, text: 'Fresh, A Fresh Vegetable'},
+{start: 27.56, text: 'Friend, A Friend of Mine'},
+{start: 30.56, text: 'From, Start from Here'},
+{start: 34.56, text: 'Front, The Front of a House'},
+{start: 38.56, text: 'Fruit, Grow Fruit'},
+{start: 42.56, text: 'Full, A Full Bus'},
+{start: 46.56, text: 'Fun, Great Fun'},
+{start: 50.56, text: 'Forget, Don\'t Forget Me'},
+{start: 56.56, text: 'Fork, E-Bent the Fork'},
+{start: 60.56, text: 'Free, Admission Free'},
+{start: 64.56, text: 'Fresh, Fresh Air is Good'},
+{start: 68.56, text: 'Friend, You\'re a Good Friend'},
+{start: 72.56, text: 'From, He is From Korea'},
+{start: 76.56, text: 'Friend, Billy sits in front of the building'},
+{start: 82.56, text: 'Fruit, The Sun ripens fruit'},
+{start: 88.56, text: 'Full, The Desk is Full of Books'},
+{start: 92.56, text: 'Fun, Have Fun'},
+{start: 96.56, text: '6 Weeks, Two Day'},
+{start: 106.56, text: 'Game, The Tennis Game'},
+{start: 110.56, text: 'Garden, Plant a Garden'},
+{start: 114.56, text: 'Gas, Light the Gas'},
+{start: 118.56, text: 'Gate, Open a Gate'},
+{start: 122.56, text: 'Gentle, A Gentle Heart'},
+{start: 126.56, text: 'Get, Get First Prize'},
+{start: 130.56, text: 'Girl, A Girl School'},
+{start: 134.56, text: 'Give, Give her a Watch'},
+{start: 138.56, text: 'Glad, Be Glad to Meet her'},
+{start: 142.56, text: 'Glass, A Glass of Water'},
+{start: 148.56, text: 'Game, We Finally won the Game'},
+{start: 154.56, text: 'Garden, Flowers beautify a Garden'},
+{start: 160.56, text: 'Gas, I can smell gas'},
+{start: 164.56, text: 'Gate, The Gate is Shut'},
+{start: 168.56, text: 'Gentle, She Speaks in a Gentle Town'},
+{start: 172.56, text: 'Get, Where did you get the book?'},
+{start: 176.56, text: 'Girl, The Girl Delivers Newspapers'},
+{start: 182.56, text: 'Give, Give me a Coffee'},
+{start: 186.56, text: 'Glad, I am Glad to See you'},
+{start: 190.56, text: 'Glass, Glass Breaks Easily'},
+{start: 199.56, text: '6 Week, Three Day'},
+{start: 205.56, text: 'Glove, Put on Gloves'},
+{start: 208.56, text: 'Go, Go Home'},
+{start: 212.56, text: 'God, Believe in God'},
+{start: 216.56, text: 'Gold, Pure Gold'},
+{start: 220.56, text: 'Good, A Good Dictionary'},
+{start: 224.56, text: 'Grandmother, My Grandmother\'s Wish'},
+{start: 228.56, text: 'Grape, Grape Juice'},
+{start: 233.56, text: 'Grass, Cut Grass'},
+{start: 237.56, text: 'Gray, A Gray Suit'},
+{start: 241.56, text: 'Great, A Great Animal'},
+{start: 248.56, text: 'Glove, I Lost My Gloves'},
+{start: 252.56, text: 'Go, Go Straight'},
+{start: 256.56, text: 'God, God Bless You'},
+{start: 260.56, text: 'Gold, Silence is Gold'},
+{start: 264.56, text: 'Good, Sounds Good'},
+{start: 268.56, text: 'Grandmother, Grandmother\'s Sing\'s Very Well'},
+{start: 272.56, text: 'Grape, Wine is Made from Grapes'},
+{start: 277.56, text: 'Grass, Keep Off the Grass'},
+{start: 281.56, text: 'Gray, My umbrella is Gray'},
+{start: 286.56, text: 'Great, He is a Great Artist'},
+{start: 295.56, text: '6 Week, Four Day'},
+{start: 300.56, text: 'Green, Bright Green'},
+{start: 304.56, text: 'Ground, A Baseball Ground'},
+{start: 308.56, text: 'Group, A Group Tour'},
+{start: 312.56, text: 'Grow, Grow Very Quickly'},
+{start: 316.56, text: 'Guitar, Play the Guitar'},
+{start: 320.56, text: 'Hair, Black Hair'},
+{start: 324.56, text: 'Half, Half a Year'},
+{start: 328.56, text: 'Hall, A Large Hall'},
+{start: 332.56, text: 'Hamburger, Grill a Hamburger'},
+{start: 336.56, text: 'Hand, Make by Hand'},
+{start: 343.56, text: 'Green, The Cucumber is Green'},
+{start: 348.56, text: 'Ground, The Ground is Very Dry'},
+{start: 352.56, text: 'Group, I Started a Study Group'},
+{start: 356.56, text: 'Grow, Many Trees Grow in the Forest'},
+{start: 361.56, text: 'Guitar, The Guitar has 6 Drinks'},
+{start: 366.56, text: 'Hair, She Died Her Hair'},
+{start: 370.56, text: 'Half, Half of 6 is 3'},
+{start: 374.56, text: 'Hall, The Hall Filled Soon'},
+{start: 378.56, text: 'Hamburger, Alley Ordered Two Hamburger\'s'},
+{start: 384.56, text: 'Hand, Raise Your Hand'},
+{start: 392.56, text: '6 Week, Five Day'},
+{start: 398.56, text: 'Handle, Turn a Handle'},
+{start: 401.56, text: 'Happen, Happen an Accident'},
+{start: 406.56, text: 'Happy, A Happy Story'},
+{start: 410.56, text: 'Hard, Work Hard'},
+{start: 414.56, text: 'Hat, Wear a Hat'},
+{start: 418.56, text: 'Hate, Hate each other'},
+{start: 421.56, text: 'Have, Have a Bat'},
+{start: 425.56, text: 'He, A He Goat'},
+{start: 429.56, text: 'Head, Strike on the Head'},
+{start: 433.56, text: 'Here, Here a Voice'},
+{start: 439.56, text: 'Handle, The Handle is Broken'},
+{start: 444.56, text: 'Happen, Accidents will Happen'},
+{start: 448.56, text: 'Happy, I Feel Happy'},
+{start: 452.56, text: 'Hard, Iron is Hard'},
+{start: 456.56, text: 'Hat, My Hat is Off'},
+{start: 460.56, text: 'Hate, I Really Hate Him'},
+{start: 464.56, text: 'Have, I Have a Bat Pack'},
+{start: 468.56, text: 'He, He Blamed Us'},
+{start: 472.56, text: 'Head, My Head Cleared'},
+{start: 476.56, text: 'Here, We Hear With Our Ears'}
+];
+const player = document.getElementById('player');
+const container = document.getElementById('script');
+segments.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'segment';
+  div.id = 'seg-' + i;
+  div.innerHTML = `<span class="time">${formatTime(seg.start)}</span><span class="text">${seg.text}</span>`;
+  div.onclick = () => { player.currentTime = seg.start; player.play(); };
+  container.appendChild(div);
+});
+function formatTime(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+player.addEventListener('timeupdate', () => {
+  const current = player.currentTime;
+  segments.forEach((seg, i) => {
+    const next = segments[i+1];
+    const el = document.getElementById('seg-' + i);
+    if (current >= seg.start && (!next || current < next.start)) {
+      el.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else { el.classList.remove('active'); }
+  });
+});
+</script>
+</body>
+</html>

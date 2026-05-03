@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Player</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 16px; background: #f9f9f9; }
+  h2 { color: #333; font-size: 1em; }
+  audio { width: 100%; margin-bottom: 16px; }
+  .segment { padding: 10px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; display: flex; gap: 12px; }
+  .segment:hover { background: #e8f4ff; }
+  .segment.active { background: #cce5ff; font-weight: bold; }
+  .time { color: #888; font-size: 0.85em; min-width: 45px; padding-top: 2px; white-space: nowrap; }
+  .text { color: #222; line-height: 1.5; }
+</style>
+</head>
+<body>
+<h2>📖 Week-14.mp3</h2>
+<audio id="player" controls src="https://drive.google.com/uc?export=download&id=1VvmGPqo1QulKTVwGaKItJRDEYadGxtB3"></audio>
+<div id="script"></div>
+<script>
+const segments = [
+{start: 0.0, text: '14 week, one day'},
+{start: 7.0, text: 'Strange, a strange sound'},
+{start: 14.0, text: 'Strawberry, strawberry jam'},
+{start: 18.0, text: 'Street, a noisy street'},
+{start: 22.0, text: 'Strike, strike a child'},
+{start: 26.0, text: 'Strong, a strong wind'},
+{start: 30.0, text: 'Student, a bad student'},
+{start: 34.0, text: 'Study, study Chinese'},
+{start: 38.0, text: 'Stupid, a stupid person'},
+{start: 42.0, text: 'Subway, a subway station'},
+{start: 46.0, text: 'Sugar, a spoonful of sugar'},
+{start: 54.0, text: 'Strange, a strange thing happened'},
+{start: 58.0, text: 'Strawberry, strawberries are plentiful in the summer'},
+{start: 63.0, text: 'Street, the street is empty'},
+{start: 67.0, text: 'Strike, a clock strikes three'},
+{start: 72.0, text: 'Strong, he has a strong mind'},
+{start: 76.0, text: 'Student, she is a diligent student'},
+{start: 81.0, text: 'Study, students have to study hard'},
+{start: 85.0, text: 'Stupid, don\'t do that stupid thing'},
+{start: 90.0, text: 'Subway, the subway has arrived at the station'},
+{start: 95.0, text: 'Sugar, sugar melts in water'},
+{start: 104.0, text: '14 week, two day'},
+{start: 109.0, text: 'Summer, last summer'},
+{start: 114.0, text: 'Sun, rise in the sun'},
+{start: 118.0, text: 'Supermarket, go to the supermarket'},
+{start: 123.0, text: 'Super, a late supper'},
+{start: 127.0, text: 'Sure, be sure of one success'},
+{start: 131.0, text: 'Surprise, be surprised at the news'},
+{start: 136.0, text: 'Sweater, put on a sweater'},
+{start: 140.0, text: 'Sweet, a sweet cake'},
+{start: 144.0, text: 'Swim, swim in the sea'},
+{start: 148.0, text: 'Swing, get on a swing'},
+{start: 155.0, text: 'Summer, it gets hot in the summer'},
+{start: 160.0, text: 'Sun, the sun goes down'},
+{start: 164.0, text: 'Supermarket, Jenny buys food at the supermarket'},
+{start: 169.0, text: 'Supper, I had supper already'},
+{start: 173.0, text: 'Sure, I\'m sure of his success'},
+{start: 178.0, text: 'Surprise, I have a surprise for you'},
+{start: 182.0, text: 'Sweater, Ali is knitting a sweater'},
+{start: 187.0, text: 'Sweet, these grapes are sweet'},
+{start: 191.0, text: 'Swim, Peter knows how to swim'},
+{start: 196.0, text: 'Swing, the monkey is swinging'},
+{start: 204.0, text: '14 week, three day'},
+{start: 210.0, text: 'Switch, a light switch'},
+{start: 215.0, text: 'Table, sit around a table'},
+{start: 219.0, text: 'Take, take a rabbit in a trap'},
+{start: 223.0, text: 'Talk, talk too much'},
+{start: 227.0, text: 'Tall, a tall tree'},
+{start: 231.0, text: 'Tape, play a tape'},
+{start: 234.0, text: 'Taste, taste sweet'},
+{start: 238.0, text: 'Taxi, go by taxi'},
+{start: 242.0, text: 'Tea, make tea'},
+{start: 246.0, text: 'Teach, teach English'},
+{start: 252.0, text: 'Switch, let\'s switch places'},
+{start: 257.0, text: 'Table, you must clean the table'},
+{start: 261.0, text: 'Take, take it easy'},
+{start: 265.0, text: 'Talk, don\'t talk nonsense'},
+{start: 269.0, text: 'Tall, the stewardess was very tall'},
+{start: 274.0, text: 'Tape, I don\'t have a tape recorder'},
+{start: 278.0, text: 'Taste, we taste with our tongues'},
+{start: 282.0, text: 'Taxi, a taxi driver should be kind'},
+{start: 287.0, text: 'Tea, I like strong tea'},
+{start: 291.0, text: 'Teach, Mrs. Kim teaches English'},
+{start: 296.0, text: '14 week, four day'},
+{start: 306.0, text: 'Team, a basketball team'},
+{start: 310.0, text: 'Telephone, answer the telephone'},
+{start: 314.0, text: 'Television, watch television'},
+{start: 318.0, text: 'Tell, tell jokes'},
+{start: 322.0, text: 'Temple, an old temple'},
+{start: 326.0, text: 'Tennis, a tennis racket'},
+{start: 330.0, text: 'Test, a test in Korean'},
+{start: 334.0, text: 'Then, older than I'},
+{start: 338.0, text: 'Thank, thanks sincerely'},
+{start: 342.0, text: 'That, that boy'},
+{start: 349.0, text: 'Team, this team won the game'},
+{start: 353.0, text: 'Telephone, the telephone is ringing'},
+{start: 357.0, text: 'Television, I watch television every evening'},
+{start: 362.0, text: 'Tell, tell me about them'},
+{start: 366.0, text: 'Temple, a temple is a sacred place'},
+{start: 371.0, text: 'Tennis, we lost the tennis game'},
+{start: 375.0, text: 'Test, we had a test in math'},
+{start: 379.0, text: 'Then, you are older than I'},
+{start: 383.0, text: 'Thank, thank you anyway'},
+{start: 387.0, text: 'That, ask that man there'},
+{start: 396.0, text: '14 week, five day'},
+{start: 402.0, text: 'The, the book'},
+{start: 405.0, text: 'Then, since then'},
+{start: 409.0, text: 'There, near there'},
+{start: 412.0, text: 'They, they waited'},
+{start: 416.0, text: 'Thick, a thick dictionary'},
+{start: 420.0, text: 'Thin, a thin paper'},
+{start: 423.0, text: 'Thing, buy many things'},
+{start: 427.0, text: 'Think, think carefully'},
+{start: 431.0, text: 'Thirsty, feel thirsty'},
+{start: 435.0, text: 'This, this table'},
+{start: 442.0, text: 'The, the girl has lost her wallet'},
+{start: 447.0, text: 'Then, then came visitors'},
+{start: 451.0, text: 'There, he lives near there'},
+{start: 455.0, text: 'They, they lived happily'},
+{start: 459.0, text: 'Thick, slice the bread thick'},
+{start: 463.0, text: 'Thin, that man is thin'},
+{start: 467.0, text: 'Thing, it\'s a desirable thing'},
+{start: 471.0, text: 'Think, I think, therefore I am'},
+{start: 476.0, text: 'Thirsty, I am hungry and thirsty too'},
+{start: 480.0, text: 'This, this is edible'}
+];
+const player = document.getElementById('player');
+const container = document.getElementById('script');
+segments.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'segment';
+  div.id = 'seg-' + i;
+  div.innerHTML = `<span class="time">${formatTime(seg.start)}</span><span class="text">${seg.text}</span>`;
+  div.onclick = () => { player.currentTime = seg.start; player.play(); };
+  container.appendChild(div);
+});
+function formatTime(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+player.addEventListener('timeupdate', () => {
+  const current = player.currentTime;
+  segments.forEach((seg, i) => {
+    const next = segments[i+1];
+    const el = document.getElementById('seg-' + i);
+    if (current >= seg.start && (!next || current < next.start)) {
+      el.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else { el.classList.remove('active'); }
+  });
+});
+</script>
+</body>
+</html>

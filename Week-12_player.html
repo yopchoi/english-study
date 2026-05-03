@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Player</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 16px; background: #f9f9f9; }
+  h2 { color: #333; font-size: 1em; }
+  audio { width: 100%; margin-bottom: 16px; }
+  .segment { padding: 10px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; display: flex; gap: 12px; }
+  .segment:hover { background: #e8f4ff; }
+  .segment.active { background: #cce5ff; font-weight: bold; }
+  .time { color: #888; font-size: 0.85em; min-width: 45px; padding-top: 2px; white-space: nowrap; }
+  .text { color: #222; line-height: 1.5; }
+</style>
+</head>
+<body>
+<h2>📖 Week-12.mp3</h2>
+<audio id="player" controls src="https://drive.google.com/uc?export=download&id=15l5N-F-YwkGjMDkscl0htV6wCsPEkSwL"></audio>
+<div id="script"></div>
+<script>
+const segments = [
+{start: 0.0, text: '12 Weeks, One Day'},
+{start: 9.92, text: 'Rocket, A Space Rocket'},
+{start: 14.12, text: 'Roll, Roll in the bed'},
+{start: 17.88, text: 'Roof, A Tiled Roof'},
+{start: 21.68, text: 'Room, A Children\'s Room'},
+{start: 25.72, text: 'Rose, A Red Rose'},
+{start: 29.44, text: 'Round, A Round Table'},
+{start: 33.44, text: 'Ruler, A Graduated Ruler'},
+{start: 37.64, text: 'Run, Run 100 meters'},
+{start: 42.04, text: 'Sad, A Sad Story'},
+{start: 45.64, text: 'Safe, A Safe Place'},
+{start: 52.84, text: 'Rocket, The Rocket Was Launched'},
+{start: 57.04, text: 'Roll, The Dog Is Rolling in the Dust'},
+{start: 61.04, text: 'Roof, The Roof Slopes'},
+{start: 65.04, text: 'Room, Flowers Brighten a Room'},
+{start: 69.04, text: 'Rose, This Rose Smells Sweet'},
+{start: 74.04, text: 'Round, The Earth Is Round'},
+{start: 78.04, text: 'Ruler, Can I Use Your Ruler?'},
+{start: 82.04, text: 'Run, Horses Run Fast'},
+{start: 86.64, text: 'Sad, The Clown Looks Sad'},
+{start: 90.84, text: 'Safe, It Is Safe to Wear a Helmet'},
+{start: 99.64, text: '12 Weeks, Two Day'},
+{start: 105.64, text: 'Salt, Put Some Salt in the Soup'},
+{start: 110.04, text: 'Salad, A Green Salad'},
+{start: 113.04, text: 'Same, The Same Age'},
+{start: 117.04, text: 'Sand, A White Sand'},
+{start: 121.04, text: 'Say, Say About the TV Program'},
+{start: 126.04, text: 'School, A School on the Hill'},
+{start: 130.04, text: 'Score, A Perfect Score'},
+{start: 134.04, text: 'See, A Deep See'},
+{start: 138.04, text: 'Season, The Summer Season'},
+{start: 142.04, text: 'Seat, Take A Seat'},
+{start: 149.04, text: 'Salt, Sea Water Is Salt Water'},
+{start: 153.04, text: 'Salad, Bill Ordered Some Spaghetti and A Salad'},
+{start: 158.04, text: 'Same, We Live in the Same Area'},
+{start: 163.04, text: 'Sand, We Built a Sand Castle'},
+{start: 167.04, text: 'Say, Please Say That Again'},
+{start: 171.04, text: 'School, School Begins At 830'},
+{start: 176.04, text: 'Score, The Score Was 3-5'},
+{start: 180.04, text: 'See, The Sea Was Smooth'},
+{start: 184.04, text: 'Season, Apples Are In Season Now'},
+{start: 189.04, text: 'Seat, This Seat Is Engaged'},
+{start: 192.04, text: '12 Weeks, Three Day'},
+{start: 200.04, text: 'See, See Into the Room'},
+{start: 206.04, text: 'Sell, Sell A Car'},
+{start: 211.04, text: 'Send, Send Him A Card'},
+{start: 215.04, text: 'Service, Go Into Service'},
+{start: 220.04, text: 'Set, Set A Vise On The Table'},
+{start: 224.04, text: 'Shall, We Shall See'},
+{start: 228.04, text: 'Shape, Around Shape'},
+{start: 232.04, text: 'Sheep, A Sheep Goat'},
+{start: 236.04, text: 'Sheep, Sheep Graze'},
+{start: 239.04, text: 'Sheet, A Sheet Of Paper'},
+{start: 243.04, text: 'See, You Can See Stars In The Country'},
+{start: 248.04, text: 'Sell, Gram A Sell\'s Apples'},
+{start: 253.04, text: 'Send, I Send Her A Letter'},
+{start: 258.04, text: 'Service, I Will Do My Service To My Country'},
+{start: 262.04, text: 'Set, Mother Set The Table For Dinner'},
+{start: 267.04, text: 'Shall, I Shall Start Tomorrow'},
+{start: 271.04, text: 'Shape, What Shape Is It?'},
+{start: 276.04, text: 'Sheep, Sheep, Paints Well'},
+{start: 281.04, text: 'Sheep, He Keeps A Sheep'},
+{start: 286.04, text: 'Sheep, She Bought A Light Blue Sheet'},
+{start: 295.04, text: '12 Weeks, Four Day'},
+{start: 301.04, text: 'Sheep, Sell On A Sheep'},
+{start: 305.04, text: 'Sheet, A Gray Sheet'},
+{start: 309.04, text: 'Sheet, New Shoes'},
+{start: 313.04, text: 'Sheet, Shoot An Arrow'},
+{start: 317.04, text: 'Shop, A Gift Shop'},
+{start: 320.04, text: 'Short, A Short Story'},
+{start: 324.04, text: 'Shoulder, Broad Shoulders'},
+{start: 328.04, text: 'Shout, Shout One\'s Name'},
+{start: 332.04, text: 'Show, Show The Picture'},
+{start: 336.04, text: 'Show, Take A Shower'},
+{start: 343.04, text: 'Sheep, The Ship Is Sinking'},
+{start: 347.04, text: 'Shirt, Henry Is Ironing His Shirt'},
+{start: 352.04, text: 'Shoot, These Are Bill Shoes'},
+{start: 356.04, text: 'Shoot, Don\'t Move Or I\'ll Shoot You'},
+{start: 360.04, text: 'Shop, The Shop Closes At Five'},
+{start: 365.04, text: 'Short, Fall Seam Short'},
+{start: 369.04, text: 'Shoulder, He Tapped Me On The Shoulder'},
+{start: 374.04, text: 'Shout, Don\'t Shout'},
+{start: 377.04, text: 'Show, Show Me Your Hands'},
+{start: 380.04, text: 'Shower, Henry Is Taking A Shower'},
+{start: 391.04, text: '12 Weeks, Five Day'},
+{start: 396.04, text: 'Shut, Shoot The Door'},
+{start: 400.04, text: 'Sick, A Sick Girl'},
+{start: 404.04, text: 'Side, One Side Of The Road'},
+{start: 407.04, text: 'Sign, sign a letter.'},
+{start: 411.04, text: 'Silver, a silver plate.'},
+{start: 415.04, text: 'Sing, sing a song.'},
+{start: 419.04, text: 'Sir, excuse me, sir.'},
+{start: 423.04, text: 'Sister, my big sister.'},
+{start: 426.04, text: 'Sit, sit on a chair.'},
+{start: 430.04, text: 'Size, the size of the window.'},
+{start: 438.04, text: 'Shut, the door is shut.'},
+{start: 442.04, text: 'Sick, I was sick yesterday.'},
+{start: 446.04, text: 'Side, we walk side by side.'},
+{start: 450.04, text: 'Sign, mark the plus sign.'},
+{start: 454.04, text: 'Silver, much jewelry is made from silver.'},
+{start: 460.04, text: 'Sing, she sings great.'},
+{start: 464.04, text: 'Sir, do you have a reservation, sir?'},
+{start: 469.04, text: 'Sister, my sister resembles me.'},
+{start: 473.04, text: 'Sit, sit up straight.'},
+{start: 477.04, text: 'Size, do you have a small size?'}
+];
+const player = document.getElementById('player');
+const container = document.getElementById('script');
+segments.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'segment';
+  div.id = 'seg-' + i;
+  div.innerHTML = `<span class="time">${formatTime(seg.start)}</span><span class="text">${seg.text}</span>`;
+  div.onclick = () => { player.currentTime = seg.start; player.play(); };
+  container.appendChild(div);
+});
+function formatTime(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+player.addEventListener('timeupdate', () => {
+  const current = player.currentTime;
+  segments.forEach((seg, i) => {
+    const next = segments[i+1];
+    const el = document.getElementById('seg-' + i);
+    if (current >= seg.start && (!next || current < next.start)) {
+      el.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else { el.classList.remove('active'); }
+  });
+});
+</script>
+</body>
+</html>

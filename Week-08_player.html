@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Player</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 16px; background: #f9f9f9; }
+  h2 { color: #333; font-size: 1em; }
+  audio { width: 100%; margin-bottom: 16px; }
+  .segment { padding: 10px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; display: flex; gap: 12px; }
+  .segment:hover { background: #e8f4ff; }
+  .segment.active { background: #cce5ff; font-weight: bold; }
+  .time { color: #888; font-size: 0.85em; min-width: 45px; padding-top: 2px; white-space: nowrap; }
+  .text { color: #222; line-height: 1.5; }
+</style>
+</head>
+<body>
+<h2>📖 Week-08.mp3</h2>
+<audio id="player" controls src="https://drive.google.com/uc?export=download&id=1GN4MJcBAzLRBqFpVRngY-QyXOqj6wVgo"></audio>
+<div id="script"></div>
+<script>
+const segments = [
+{start: 0.0, text: '8 Weeks, One Day'},
+{start: 7.0, text: 'Kid, A Little Kid'},
+{start: 13.0, text: 'Kill, Kill an animal'},
+{start: 17.0, text: 'Kind, A Kind Boy'},
+{start: 21.0, text: 'King, The King of All Animals'},
+{start: 26.0, text: 'Kitchen, Cook in the Kitchen'},
+{start: 30.0, text: 'Knee, Bend One\'s Knees'},
+{start: 34.0, text: 'Knife, Cut with a knife'},
+{start: 38.0, text: 'Knock, Knock on the door'},
+{start: 42.0, text: 'No, Know the Fact'},
+{start: 46.0, text: 'Lady, The First Lady'},
+{start: 53.0, text: 'Kid, Kids Love These Candy Bars'},
+{start: 58.0, text: 'Kill, Don\'t Kill the Deer'},
+{start: 62.0, text: 'Kind, You Are So Kind'},
+{start: 66.0, text: 'King, The King Had One Princess'},
+{start: 71.0, text: 'Kitchen, Mother Is In The Kitchen'},
+{start: 75.0, text: 'Knee, I Have a Pain in My Knee'},
+{start: 80.0, text: 'Knife, The Knife is Very Sharp'},
+{start: 85.0, text: 'Knock, I Knocked on the Door'},
+{start: 89.0, text: 'No, I Know Lots of Fun Songs'},
+{start: 94.0, text: 'Lady, She Did Like a Lady'},
+{start: 102.0, text: '8 Weeks, Today'},
+{start: 108.0, text: 'Lake, Fish in a Lake'},
+{start: 112.0, text: 'Lamb, Turn on the Lamb'},
+{start: 116.0, text: 'Land, A Land Animal'},
+{start: 120.0, text: 'Large, A Large Number of People'},
+{start: 125.0, text: 'Last, The Last Day'},
+{start: 129.0, text: 'Late, Go to Bed Late'},
+{start: 133.0, text: 'Laugh, Laugh Hardly'},
+{start: 137.0, text: 'Lead, Lead her Into the Room'},
+{start: 141.0, text: 'Leaf, A Green Leaf'},
+{start: 145.0, text: 'Learn, Learn How to Skate'},
+{start: 152.0, text: 'Lake, We Drove to the Lake'},
+{start: 156.0, text: 'Lamb, There is a Lamb on the Desk'},
+{start: 161.0, text: 'Land, The Land Lies High'},
+{start: 165.0, text: 'Large, I Saw a Large Mouse'},
+{start: 170.0, text: 'Last, She Left Last Sunday'},
+{start: 175.0, text: 'Late, Henry Always Comes Late'},
+{start: 179.0, text: 'Laugh, She Has A Loud Laugh'},
+{start: 184.0, text: 'Lead, You Lead and Will Follow'},
+{start: 189.0, text: 'Leaf, This is a Four Leaf Clover'},
+{start: 193.0, text: 'Learn, I Want to Learn English'},
+{start: 203.0, text: '8 Week, Three Day'},
+{start: 208.0, text: 'Leaf, Leave Home'},
+{start: 213.0, text: 'Left, Turn Left'},
+{start: 216.0, text: 'Leg, The Leg of a Table'},
+{start: 220.0, text: 'Lesson, A Piano Lesson'},
+{start: 224.0, text: 'Let, Let, On a Bus'},
+{start: 229.0, text: 'Letter, Mail a Letter'},
+{start: 233.0, text: 'Library, Take a Book from a Library'},
+{start: 238.0, text: 'Lie, Tell a Lie'},
+{start: 242.0, text: 'Light, A Low Light'},
+{start: 246.0, text: 'Like, Like Fruit'},
+{start: 252.0, text: 'Leave, Bill Will Leave Tomorrow'},
+{start: 257.0, text: 'Left, He Right\'s Left Handed'},
+{start: 261.0, text: 'Leg, My Leg Pains Me'},
+{start: 265.0, text: 'Lesson, I Have No Lesson Today'},
+{start: 270.0, text: 'Let, Let Me Go Out'},
+{start: 274.0, text: 'Letter, Please Mail this Letter'},
+{start: 278.0, text: 'Library, You Should Be Quiet in the Library'},
+{start: 283.0, text: 'Lie, You Must Not Tell a Lie'},
+{start: 288.0, text: 'Light, Turn on the Light'},
+{start: 292.0, text: 'Like, I Like Music'},
+{start: 300.0, text: '8 Week, Four Day'},
+{start: 306.0, text: 'Line, Draw a Line on the Paper'},
+{start: 311.0, text: 'Lion, A Pride of Lions'},
+{start: 315.0, text: 'Lip, Red Lips'},
+{start: 319.0, text: 'List, A List of Members'},
+{start: 323.0, text: 'Listen, Listen to Music'},
+{start: 327.0, text: 'Little, A Little Money'},
+{start: 331.0, text: 'Live, Live, A Live TV Show'},
+{start: 336.0, text: 'Live Long'},
+{start: 339.0, text: 'Long, A Long Night'},
+{start: 343.0, text: 'Look, Look at the Picture'},
+{start: 347.0, text: 'Lose, Lose On\'s Purse'},
+{start: 355.0, text: 'Line, Billy is First in Line'},
+{start: 359.0, text: 'Lion, The Lion is the symbol of Courage'},
+{start: 365.0, text: 'Lip, She Has Rosie Lips'},
+{start: 369.0, text: 'List, Henry is Writing a Long List'},
+{start: 374.0, text: 'Listen, Listen to the Bells'},
+{start: 379.0, text: 'Little, The Cat is Little'},
+{start: 383.0, text: 'Live, Live, He Has Live Eyes'},
+{start: 388.0, text: 'They Live in Korea'},
+{start: 391.0, text: 'Long, The Snake is Long'},
+{start: 395.0, text: 'Look, You Look Happy'},
+{start: 399.0, text: 'Lose, I Don\'t Want to Lose You'},
+{start: 409.0, text: '8 Week, Five Day'},
+{start: 415.0, text: 'Lot, A Lot of Stamps'},
+{start: 419.0, text: 'Loud, A Loud Voice'},
+{start: 423.0, text: 'Love, Romantic Love'},
+{start: 427.0, text: 'Low, A Very Low Voice'},
+{start: 431.0, text: 'Luck, Wish One\'s Luck'},
+{start: 435.0, text: 'Lunch, Eat Lunch'},
+{start: 439.0, text: 'Mamm, Hello Mamm'},
+{start: 443.0, text: 'Mad, A Mad Man'},
+{start: 447.0, text: 'Male, Take the Male'},
+{start: 451.0, text: 'Make, Make a Dress'},
+{start: 459.0, text: 'Lot, I Have a Lot of Money'},
+{start: 463.0, text: 'Loud, Don\'t Talk So Loud'},
+{start: 467.0, text: 'Love, They Love Each Other'},
+{start: 471.0, text: 'Low, The Wall is Low'},
+{start: 475.0, text: 'Luck, Good Luck To You'},
+{start: 479.0, text: 'Lunch, It\'s Time For Lunch'},
+{start: 483.0, text: 'Mamm, May I Help You Mamm?'},
+{start: 488.0, text: 'Mad, He Is Quite Mad'},
+{start: 492.0, text: 'Male, The Morning Male Is Late'},
+{start: 496.0, text: 'Make, Cows Make Milk'}
+];
+const player = document.getElementById('player');
+const container = document.getElementById('script');
+segments.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'segment';
+  div.id = 'seg-' + i;
+  div.innerHTML = `<span class="time">${formatTime(seg.start)}</span><span class="text">${seg.text}</span>`;
+  div.onclick = () => { player.currentTime = seg.start; player.play(); };
+  container.appendChild(div);
+});
+function formatTime(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+player.addEventListener('timeupdate', () => {
+  const current = player.currentTime;
+  segments.forEach((seg, i) => {
+    const next = segments[i+1];
+    const el = document.getElementById('seg-' + i);
+    if (current >= seg.start && (!next || current < next.start)) {
+      el.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else { el.classList.remove('active'); }
+  });
+});
+</script>
+</body>
+</html>

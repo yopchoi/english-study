@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Player</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 16px; background: #f9f9f9; }
+  h2 { color: #333; font-size: 1em; }
+  audio { width: 100%; margin-bottom: 16px; }
+  .segment { padding: 10px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; display: flex; gap: 12px; }
+  .segment:hover { background: #e8f4ff; }
+  .segment.active { background: #cce5ff; font-weight: bold; }
+  .time { color: #888; font-size: 0.85em; min-width: 45px; padding-top: 2px; white-space: nowrap; }
+  .text { color: #222; line-height: 1.5; }
+</style>
+</head>
+<body>
+<h2>📖 Week-13.mp3</h2>
+<audio id="player" controls src="https://drive.google.com/uc?export=download&id=1BCU3DSnIzEZt1sUdvpvzeU9pM7Yo46-s"></audio>
+<div id="script"></div>
+<script>
+const segments = [
+{start: 0.0, text: '13 week, one day'},
+{start: 7.0, text: 'Skate, skate on a lake'},
+{start: 14.0, text: 'Skirt, a short skirt'},
+{start: 18.0, text: 'Sky, a clear sky'},
+{start: 22.0, text: 'Sleep, sleep well'},
+{start: 26.0, text: 'Slide, slide on the ice'},
+{start: 30.0, text: 'Slow, walk at a slow pace'},
+{start: 34.0, text: 'Small, a small animal'},
+{start: 38.0, text: 'Smell, smell sweet'},
+{start: 42.0, text: 'Smile, hide a smile'},
+{start: 46.0, text: 'Smoke, cigarette smoke'},
+{start: 50.0, text: 'Skate, I like skating'},
+{start: 57.0, text: 'Skirt, she wants to wear a skirt'},
+{start: 62.0, text: 'Sky, the sun has climbed the sky'},
+{start: 66.0, text: 'Sleep, I will sleep in the daytime'},
+{start: 71.0, text: 'Slide, there is a slide on the playground'},
+{start: 76.0, text: 'Slow, turtles are slow'},
+{start: 80.0, text: 'Small, his store is small'},
+{start: 84.0, text: 'Smell, there was a smell of burning'},
+{start: 88.0, text: 'Smile, a smile came to his lips'},
+{start: 93.0, text: 'Smoke, you may not smoke here'},
+{start: 97.0, text: '13 week, two day'},
+{start: 108.0, text: 'Snow, a heavy snow'},
+{start: 112.0, text: 'So, so many'},
+{start: 116.0, text: 'Soap, wash with soap'},
+{start: 120.0, text: 'Soccer, a soccer ball'},
+{start: 124.0, text: 'Socks, a pair of socks'},
+{start: 128.0, text: 'Soft, a soft bed'},
+{start: 132.0, text: 'Some, some flowers'},
+{start: 136.0, text: 'Sun, adopt a sun'},
+{start: 140.0, text: 'Song, a popular song'},
+{start: 144.0, text: 'Soon, finish the homework soon'},
+{start: 152.0, text: 'Snow, much snow has fallen'},
+{start: 156.0, text: 'So, so I could see him'},
+{start: 160.0, text: 'Soap, wash your hands with soap'},
+{start: 164.0, text: 'Soccer, he plays soccer on Saturday'},
+{start: 169.0, text: 'Socks, he bought a pair of new socks'},
+{start: 174.0, text: 'Soft, this pillow feels very soft'},
+{start: 179.0, text: 'Some, drink some milk'},
+{start: 183.0, text: 'Sun, her sun is 13 years old'},
+{start: 187.0, text: 'Song, a la sings a song'},
+{start: 191.0, text: 'Soon, walking soon tires me'},
+{start: 201.0, text: '13 week, three day'},
+{start: 206.0, text: 'Sorry, sorry about'},
+{start: 210.0, text: 'Sound, a big sound'},
+{start: 214.0, text: 'Soap, vegetable soup'},
+{start: 218.0, text: 'South, a Southgate'},
+{start: 222.0, text: 'Space, open space'},
+{start: 226.0, text: 'Speak, speak English'},
+{start: 230.0, text: 'Speed, top speed'},
+{start: 234.0, text: 'Spell, spell one\'s name'},
+{start: 238.0, text: 'Spend, spend some money'},
+{start: 242.0, text: 'Spoon, eat with a spoon'},
+{start: 246.0, text: 'Sorry, I am sorry'},
+{start: 253.0, text: 'Sound, the ear reacts to sound'},
+{start: 257.0, text: 'Soap, this soup is too thin'},
+{start: 262.0, text: 'South, we traveled toward the south'},
+{start: 266.0, text: 'Space, he is interested in space research'},
+{start: 272.0, text: 'Speak, he can speak good English'},
+{start: 276.0, text: 'Speed, he ran away at top speed'},
+{start: 281.0, text: 'Spell, how do you spell your name?'},
+{start: 285.0, text: 'Spend, where shall we spend our holiday?'},
+{start: 290.0, text: 'Spoon, I use a spoon when I eat food'},
+{start: 300.0, text: '13 week, four day'},
+{start: 305.0, text: 'Sport, play a sport'},
+{start: 309.0, text: 'Spring, an early spring'},
+{start: 313.0, text: 'Square, draw a square'},
+{start: 317.0, text: 'Stairs, go up the stairs'},
+{start: 321.0, text: 'Stamp, put a stamp'},
+{start: 325.0, text: 'Stand, stand still'},
+{start: 329.0, text: 'Star, a bright star'},
+{start: 333.0, text: 'Start, start to dance'},
+{start: 337.0, text: 'Station, arrive at the station'},
+{start: 341.0, text: 'Stay, stay at the office'},
+{start: 348.0, text: 'Sport, ping pong is an indoor sport'},
+{start: 353.0, text: 'Spring, spring has come, winter has gone'},
+{start: 358.0, text: 'Square, a square has four equal sides'},
+{start: 363.0, text: 'Stairs, alley went up the stairs'},
+{start: 368.0, text: 'Stamp, my hobby is collecting stamps'},
+{start: 373.0, text: 'Stand, they stand in line'},
+{start: 377.0, text: 'Star, stars twinkle bright'},
+{start: 381.0, text: 'Start, we start work at 9 every morning'},
+{start: 387.0, text: 'Station, a train is in the station'},
+{start: 391.0, text: 'Stay, I should like to stay here'},
+{start: 396.0, text: '13 week, five day'},
+{start: 406.0, text: 'Steam, a steam engine'},
+{start: 410.0, text: 'Step, a first step'},
+{start: 414.0, text: 'Stick, a hiking stick'},
+{start: 418.0, text: 'Stone, throw a stone'},
+{start: 422.0, text: 'Stop, stop the work'},
+{start: 426.0, text: 'Store, open a store'},
+{start: 430.0, text: 'Storm, a heavy storm'},
+{start: 434.0, text: 'Story, tell a story'},
+{start: 438.0, text: 'Stove, a gas stove'},
+{start: 442.0, text: 'Straight, a straight line'},
+{start: 446.0, text: 'Steam, these engines are driven by steam'},
+{start: 454.0, text: 'Step, he took a step back'},
+{start: 458.0, text: 'Stick, this stick measures three feet'},
+{start: 462.0, text: 'Stone, the pyramids were made of stone'},
+{start: 466.0, text: 'Stop, stop playing right now'},
+{start: 472.0, text: 'Store, there are many stores in this street'},
+{start: 476.0, text: 'Storm, the storm overtook the ship'},
+{start: 480.0, text: 'Story, the story touched his heart'},
+{start: 486.0, text: 'Stove, the stove smokes'},
+{start: 490.0, text: 'Straight, the road is very straight'}
+];
+const player = document.getElementById('player');
+const container = document.getElementById('script');
+segments.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'segment';
+  div.id = 'seg-' + i;
+  div.innerHTML = `<span class="time">${formatTime(seg.start)}</span><span class="text">${seg.text}</span>`;
+  div.onclick = () => { player.currentTime = seg.start; player.play(); };
+  container.appendChild(div);
+});
+function formatTime(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+player.addEventListener('timeupdate', () => {
+  const current = player.currentTime;
+  segments.forEach((seg, i) => {
+    const next = segments[i+1];
+    const el = document.getElementById('seg-' + i);
+    if (current >= seg.start && (!next || current < next.start)) {
+      el.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else { el.classList.remove('active'); }
+  });
+});
+</script>
+</body>
+</html>

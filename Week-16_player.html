@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Player</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 16px; background: #f9f9f9; }
+  h2 { color: #333; font-size: 1em; }
+  audio { width: 100%; margin-bottom: 16px; }
+  .segment { padding: 10px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; display: flex; gap: 12px; }
+  .segment:hover { background: #e8f4ff; }
+  .segment.active { background: #cce5ff; font-weight: bold; }
+  .time { color: #888; font-size: 0.85em; min-width: 45px; padding-top: 2px; white-space: nowrap; }
+  .text { color: #222; line-height: 1.5; }
+</style>
+</head>
+<body>
+<h2>📖 Week-16.mp3</h2>
+<audio id="player" controls src="https://drive.google.com/uc?export=download&id=1J8NpNvJjG2lMCXKSUO4gy2rceX8IqJow"></audio>
+<div id="script"></div>
+<script>
+const segments = [
+{start: 0.0, text: '16 Week, 1 Day'},
+{start: 9.92, text: 'Want, want a CD player?'},
+{start: 15.0, text: 'War, win a war.'},
+{start: 19.0, text: 'Warm, a warm day.'},
+{start: 22.5, text: 'Wash, wash oneself.'},
+{start: 26.5, text: 'Waste, waste time.'},
+{start: 30.5, text: 'Watch, a gold watch.'},
+{start: 34.5, text: 'Water, drink a glass of water.'},
+{start: 38.5, text: 'Way, lead the way.'},
+{start: 41.5, text: 'We, we are agreed.'},
+{start: 45.5, text: 'Weak, a weak team.'},
+{start: 52.5, text: 'Want, plants want water.'},
+{start: 56.5, text: 'War, the war is over.'},
+{start: 60.5, text: 'Warm, spring is warm.'},
+{start: 64.5, text: 'Wash, wash your hands before you eat.'},
+{start: 69.5, text: 'Waste, don\'t waste your money.'},
+{start: 73.5, text: 'Watch, this watch is exact.'},
+{start: 77.5, text: 'Water, oil separates from water.'},
+{start: 81.5, text: 'Way, the way is barred.'},
+{start: 85.5, text: 'We, we work together.'},
+{start: 89.5, text: 'Weak, he is weak in grammar.'},
+{start: 95.5, text: '16 Week, 2 Day'},
+{start: 104.5, text: 'Wear, wear light clothes.'},
+{start: 108.5, text: 'Weather, fine weather.'},
+{start: 111.5, text: 'Weak, this week.'},
+{start: 115.5, text: 'Welcome, perfectly welcome.'},
+{start: 119.5, text: 'Well, a very well man.'},
+{start: 123.5, text: 'Waste, waste of the city.'},
+{start: 127.5, text: 'Wet, wet with tears.'},
+{start: 130.5, text: 'What, what is?'},
+{start: 134.5, text: 'When, when is?'},
+{start: 138.5, text: 'Where, where is?'},
+{start: 144.5, text: 'Where, I wear glasses.'},
+{start: 148.5, text: 'Weather, weather keeps fine.'},
+{start: 152.5, text: 'Weak, we meet once a week.'},
+{start: 156.5, text: 'Welcome, welcome to my house.'},
+{start: 160.5, text: 'Well, this knife cuts well.'},
+{start: 164.5, text: 'Waste, the sun sets in the west.'},
+{start: 169.5, text: 'Wet, the floor is wet.'},
+{start: 173.5, text: 'What, what happened?'},
+{start: 176.5, text: 'When, when did he graduate?'},
+{start: 180.5, text: 'Where, where shall we meet?'},
+{start: 186.5, text: '16 Week, 3 Day'},
+{start: 195.5, text: 'Which, which is?'},
+{start: 199.5, text: 'White, a white lily.'},
+{start: 203.5, text: 'Who, who is?'},
+{start: 206.5, text: 'Why, why is?'},
+{start: 210.5, text: 'Wide, a wide river.'},
+{start: 213.5, text: 'Will, I will go.'},
+{start: 217.5, text: 'When, when the game.'},
+{start: 220.5, text: 'Wind, a cold wind.'},
+{start: 224.5, text: 'Window, break the window.'},
+{start: 227.5, text: 'Wing, spread a wing.'},
+{start: 234.5, text: 'Which, which is your book?'},
+{start: 238.5, text: 'White, flower is as white as snow.'},
+{start: 242.5, text: 'Who, who is that?'},
+{start: 246.5, text: 'Why, why are you in a hurry?'},
+{start: 250.5, text: 'Wide, she has a wide brow.'},
+{start: 254.5, text: 'Will, this will be right.'},
+{start: 258.5, text: 'Wind, Jenny will win easily.'},
+{start: 262.5, text: 'Wind, the wind is blowing.'},
+{start: 266.5, text: 'Window, please shut the window.'},
+{start: 270.5, text: 'Wing, a butterfly has wings.'},
+{start: 279.5, text: '16 Week, 4 Day'},
+{start: 285.5, text: 'Winter, winter weather.'},
+{start: 289.5, text: 'With, go with one\'s friends.'},
+{start: 293.5, text: 'Woman, a nice woman.'},
+{start: 297.5, text: 'Wonder, wonder really.'},
+{start: 301.5, text: 'Wood, cut wood.'},
+{start: 304.5, text: 'Word, a word of advice.'},
+{start: 308.5, text: 'Work, work on the farm.'},
+{start: 312.5, text: 'World, a map of the world.'},
+{start: 316.5, text: 'Right, write a letter.'},
+{start: 319.5, text: 'Wrong, a wrong lie.'},
+{start: 327.5, text: 'Winter, spring follows winter.'},
+{start: 331.5, text: 'With, he goes with anyone.'},
+{start: 335.5, text: 'Woman, that woman is tall.'},
+{start: 339.5, text: 'Wonder, it is a wonder.'},
+{start: 343.5, text: 'Wood, the table is made of wood.'},
+{start: 347.5, text: 'Word, he left us without a word.'},
+{start: 351.5, text: 'Work, we work together.'},
+{start: 355.5, text: 'World, they traveled around the world.'},
+{start: 359.5, text: 'Right, he cannot read or write.'},
+{start: 364.5, text: 'Wrong, you answered wrong.'},
+{start: 372.5, text: '16 Week, 5 Day.'},
+{start: 378.5, text: 'Yeah, oh yeah.'},
+{start: 382.5, text: 'Year, next year.'},
+{start: 386.5, text: 'Yellow, wearing yellow.'},
+{start: 389.5, text: 'Yes, say yes.'},
+{start: 393.5, text: 'Yesterday, the day before yesterday.'},
+{start: 397.5, text: 'Yet, have yet to do.'},
+{start: 401.5, text: 'You, friendship between you and me.'},
+{start: 406.5, text: 'Young, a young gentleman.'},
+{start: 410.5, text: 'Zero, above zero.'},
+{start: 414.5, text: 'Zoo, wild animals in the zoo.'},
+{start: 419.5, text: 'Yeah, yeah, why not?'},
+{start: 425.5, text: 'Year, we meet twice a year.'},
+{start: 429.5, text: 'Yellow, his rank code is yellow.'},
+{start: 433.5, text: 'Yes, yes, I\'m fine.'},
+{start: 437.5, text: 'Yesterday, we played baseball yesterday.'},
+{start: 442.5, text: 'Yet, he is yet alive.'},
+{start: 446.5, text: 'You, you look good.'},
+{start: 450.5, text: 'Young, the bride is too young.'},
+{start: 454.5, text: 'Zero, I got zero in science.'},
+{start: 458.5, text: 'Zoo, I saw a tiger in the zoo.'},
+{start: 467.5, text: 'Yeah, yeah.'},
+{start: 471.5, text: 'Yeah.'},
+{start: 474.5, text: 'Yeah.'}
+];
+const player = document.getElementById('player');
+const container = document.getElementById('script');
+segments.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'segment';
+  div.id = 'seg-' + i;
+  div.innerHTML = `<span class="time">${formatTime(seg.start)}</span><span class="text">${seg.text}</span>`;
+  div.onclick = () => { player.currentTime = seg.start; player.play(); };
+  container.appendChild(div);
+});
+function formatTime(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+player.addEventListener('timeupdate', () => {
+  const current = player.currentTime;
+  segments.forEach((seg, i) => {
+    const next = segments[i+1];
+    const el = document.getElementById('seg-' + i);
+    if (current >= seg.start && (!next || current < next.start)) {
+      el.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else { el.classList.remove('active'); }
+  });
+});
+</script>
+</body>
+</html>

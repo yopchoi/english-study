@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Player</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 16px; background: #f9f9f9; }
+  h2 { color: #333; font-size: 1em; }
+  audio { width: 100%; margin-bottom: 16px; }
+  .segment { padding: 10px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; display: flex; gap: 12px; }
+  .segment:hover { background: #e8f4ff; }
+  .segment.active { background: #cce5ff; font-weight: bold; }
+  .time { color: #888; font-size: 0.85em; min-width: 45px; padding-top: 2px; white-space: nowrap; }
+  .text { color: #222; line-height: 1.5; }
+</style>
+</head>
+<body>
+<h2>📖 Week-11.mp3</h2>
+<audio id="player" controls src="https://drive.google.com/uc?export=download&id=1rcQisAbrp_MsUk4ABGKdBU90gAfgs2jp"></audio>
+<div id="script"></div>
+<script>
+const segments = [
+{start: 0.0, text: '11 Weeks, One Day'},
+{start: 7.0, text: 'Pipes, A Long Pipes'},
+{start: 13.0, text: 'Place, A Place of Meeting'},
+{start: 17.0, text: 'Plan, Make Plan'},
+{start: 21.0, text: 'Plan, A Passage or Plan'},
+{start: 25.0, text: 'Plant, A Wild Plant'},
+{start: 29.0, text: 'Play, Study and Play'},
+{start: 33.0, text: 'Please, Please Highly'},
+{start: 36.0, text: 'Pocket, A Pants Pocket'},
+{start: 40.0, text: 'Point, The Point of Her Talk'},
+{start: 44.0, text: 'Police, Call a Police'},
+{start: 52.0, text: 'Pip, That Pipes Leaks Gas'},
+{start: 56.0, text: 'Place, She Lives in a Pretty Place'},
+{start: 60.0, text: 'Plan, The Plan is Out'},
+{start: 64.0, text: 'Plane, The Plane Landed Safely'},
+{start: 68.0, text: 'Plant, Henry\'s Plant is Dying'},
+{start: 72.0, text: 'Play, Play Outside the House'},
+{start: 77.0, text: 'Please, Please Forgive Me'},
+{start: 81.0, text: 'Pocket, The Coin is in his Pocket'},
+{start: 85.0, text: 'Point, I agree with him on that point'},
+{start: 89.0, text: 'Police, Jenny is a Police Officer'},
+{start: 99.0, text: '11 Weeks, Two Day'},
+{start: 104.0, text: 'Pool, Swim in the Pool'},
+{start: 108.0, text: 'Poor, Poor People'},
+{start: 112.0, text: 'Post, Post Office'},
+{start: 116.0, text: 'Postor, Put Up a Postor'},
+{start: 120.0, text: 'Potato, Fry Potatoes'},
+{start: 124.0, text: 'Practice, A Practice Game'},
+{start: 128.0, text: 'Present, A Birthday Present'},
+{start: 132.0, text: 'Pretty, A Pretty Doll'},
+{start: 136.0, text: 'Print, Print Postors'},
+{start: 140.0, text: 'Problem, An Easy Problem'},
+{start: 147.0, text: 'Pool, The Pool is Crounded'},
+{start: 151.0, text: 'Poor, He Was Born Poor'},
+{start: 155.0, text: 'Post, I Live Opposite the Post Office'},
+{start: 160.0, text: 'Postor, The Postor is Attractive'},
+{start: 164.0, text: 'Potato, Henry Peels a Potato'},
+{start: 169.0, text: 'Practice, Practice Makes Perfect'},
+{start: 173.0, text: 'Present, It\'s Your Birthday Present'},
+{start: 177.0, text: 'Pretty, What a Pretty Dress'},
+{start: 181.0, text: 'Print, This Book Has Clear Print'},
+{start: 186.0, text: 'Problem, What\'s The Problem'},
+{start: 194.0, text: '11 Week, Three Day'},
+{start: 199.0, text: 'Pool, Pull Dogs Tail'},
+{start: 205.0, text: 'Push, Push At the Back'},
+{start: 209.0, text: 'Put, Put A Box on the Desk'},
+{start: 213.0, text: 'Queen, A Beautiful Queen'},
+{start: 217.0, text: 'Question, Ask A Question'},
+{start: 221.0, text: 'Quick, A Quick Movement'},
+{start: 225.0, text: 'Quiet, A Quiet Room'},
+{start: 228.0, text: 'Radio, Listen to the Radio'},
+{start: 232.0, text: 'Rain, A Heavy Rain'},
+{start: 236.0, text: 'Rainbow, A Beautiful Rainbow'},
+{start: 243.0, text: 'Pool, Billy Pools the Wagon'},
+{start: 248.0, text: 'Push, Don\'t Push At the Back'},
+{start: 252.0, text: 'Put, Where Did You Put My Shoes'},
+{start: 256.0, text: 'Queen, The Queen Has a Crown on Her Head'},
+{start: 260.0, text: 'Question, May I Ask You A Question?'},
+{start: 265.0, text: 'Quick, She Is Quick in Action'},
+{start: 269.0, text: 'Quiet, The Restaurant Was Very Quiet'},
+{start: 274.0, text: 'Radio, Turn Down the Radio'},
+{start: 278.0, text: 'Rain, The Rain Has Stopped'},
+{start: 283.0, text: 'Rainbow, There Is a Rainbow Over the Mountain'},
+{start: 292.0, text: '11 Week, Four Day'},
+{start: 298.0, text: 'Read, Read A Newspaper'},
+{start: 302.0, text: 'Ready, Be Ready To Go To School'},
+{start: 306.0, text: 'Real, A Real Jewel'},
+{start: 310.0, text: 'Record, Record A Song on Tape'},
+{start: 314.0, text: 'Read, A Red Dress'},
+{start: 318.0, text: 'Remember, Remember One\'s Name'},
+{start: 322.0, text: 'Repeat, Repeat News'},
+{start: 326.0, text: 'Rest, An Hour\'s Rest'},
+{start: 330.0, text: 'Restaurant, Eat At A Restaurant'},
+{start: 334.0, text: 'Return, Return Home'},
+{start: 341.0, text: 'Read, He Can Read French'},
+{start: 346.0, text: 'Ready, Are You Ready?'},
+{start: 349.0, text: 'Real, The Poet Is A Real Man'},
+{start: 354.0, text: 'Record, E-Captor Record of His Trip'},
+{start: 358.0, text: 'Read, A Fire Engine Is Read'},
+{start: 363.0, text: 'Remember, I\'ll Always Remember You'},
+{start: 367.0, text: 'Repeat, Could You Repeat That?'},
+{start: 371.0, text: 'Rest, Rest For A While'},
+{start: 375.0, text: 'Restaurant, The Restaurant Was So Crowded'},
+{start: 380.0, text: 'Return, She Will Return Soon'},
+{start: 385.0, text: '11 Week, Five Day'},
+{start: 395.0, text: 'Ribbon, A Yellow Ribbon'},
+{start: 399.0, text: 'Rice, Cook Rice'},
+{start: 403.0, text: 'Rich, A Rich Father'},
+{start: 407.0, text: 'Ride, Ride On A Train'},
+{start: 411.0, text: 'Right, My Right Arm'},
+{start: 415.0, text: 'Ring, A Diamond Ring'},
+{start: 419.0, text: 'River, Swim Across A River'},
+{start: 423.0, text: 'Road, Car On The Road'},
+{start: 427.0, text: 'Robot, An Industrial Robot'},
+{start: 431.0, text: 'Rock, A Big Rock'},
+{start: 437.0, text: 'Ribbon, She Has A Red Ribbon in Her Hair'},
+{start: 440.0, text: 'Rice, The Koreans Feed On Rice'},
+{start: 444.0, text: 'Rich, He Is A Rich Man'},
+{start: 448.0, text: 'Ride, Can You Ride A Bicycle?'},
+{start: 452.0, text: 'Ride, She Was Perfectly Ride'},
+{start: 456.0, text: 'Ring, She Put A Ring On Her Finger'},
+{start: 460.0, text: 'River, The River Is Wide'},
+{start: 464.0, text: 'Road, My House Is Across The Road'},
+{start: 468.0, text: 'Robot, I Wish For A Robot'},
+{start: 476.0, text: 'Rock, The Ship, Struck A Rock'}
+];
+const player = document.getElementById('player');
+const container = document.getElementById('script');
+segments.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'segment';
+  div.id = 'seg-' + i;
+  div.innerHTML = `<span class="time">${formatTime(seg.start)}</span><span class="text">${seg.text}</span>`;
+  div.onclick = () => { player.currentTime = seg.start; player.play(); };
+  container.appendChild(div);
+});
+function formatTime(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+player.addEventListener('timeupdate', () => {
+  const current = player.currentTime;
+  segments.forEach((seg, i) => {
+    const next = segments[i+1];
+    const el = document.getElementById('seg-' + i);
+    if (current >= seg.start && (!next || current < next.start)) {
+      el.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else { el.classList.remove('active'); }
+  });
+});
+</script>
+</body>
+</html>

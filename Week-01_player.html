@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Player</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 16px; background: #f9f9f9; }
+  h2 { color: #333; font-size: 1em; }
+  audio { width: 100%; margin-bottom: 16px; }
+  .segment { padding: 10px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; display: flex; gap: 12px; }
+  .segment:hover { background: #e8f4ff; }
+  .segment.active { background: #cce5ff; font-weight: bold; }
+  .time { color: #888; font-size: 0.85em; min-width: 45px; padding-top: 2px; white-space: nowrap; }
+  .text { color: #222; line-height: 1.5; }
+</style>
+</head>
+<body>
+<h2>📖 Week-01.mp3</h2>
+<audio id="player" controls src="https://drive.google.com/uc?export=download&id=1zaAyLmaixRym3Fb4N2vT4KT1IJKurBOb"></audio>
+<div id="script"></div>
+<script>
+const segments = [
+{start: 0.0, text: '1 week, 1 day'},
+{start: 10.0, text: 'A, N, 4 a week'},
+{start: 16.0, text: 'About, know about her'},
+{start: 20.0, text: 'Across, run across the street'},
+{start: 24.0, text: 'Act, an act of kindness'},
+{start: 28.0, text: 'Address, email address'},
+{start: 32.0, text: 'Afraid, be afraid of snakes'},
+{start: 37.0, text: 'After, the day after'},
+{start: 41.0, text: 'Afternoon, on Monday afternoon'},
+{start: 45.0, text: 'Again, once again'},
+{start: 49.0, text: 'Age, at the age of ten'},
+{start: 58.0, text: 'A, N, I need a pencil'},
+{start: 63.0, text: 'About, this book is about animals'},
+{start: 68.0, text: 'Across, the supermarket is across the street'},
+{start: 74.0, text: 'Act, the boy acted like a baby'},
+{start: 79.0, text: 'Address, I know her address'},
+{start: 84.0, text: 'Afraid, don\'t be afraid'},
+{start: 88.0, text: 'After, July comes after June'},
+{start: 93.0, text: 'Afternoon, it is a nice Sunday afternoon'},
+{start: 98.0, text: 'Again, she is crying again'},
+{start: 103.0, text: 'Age, she is your age'},
+{start: 109.0, text: '1 week, 2 day'},
+{start: 117.0, text: 'A, Go, 50 years ago'},
+{start: 122.0, text: 'Air, fresh air'},
+{start: 126.0, text: 'Airport, meet at the airport'},
+{start: 130.0, text: 'Album, a photo album'},
+{start: 134.0, text: 'All, all boys'},
+{start: 138.0, text: 'Along, walk along the street'},
+{start: 143.0, text: 'Always, always late'},
+{start: 147.0, text: 'Among, a house among the trees'},
+{start: 152.0, text: 'And, stick and carrot'},
+{start: 157.0, text: 'Angry, be angry with me'},
+{start: 165.0, text: 'A, Go, my birthday was two days ago'},
+{start: 170.0, text: 'Air, we can\'t live without air'},
+{start: 175.0, text: 'Airport, the plane is in an airport'},
+{start: 180.0, text: 'Album, I bought a stamp album'},
+{start: 185.0, text: 'All, we are all six'},
+{start: 189.0, text: 'Along, they are walking along the beach'},
+{start: 194.0, text: 'Always, she is always late'},
+{start: 199.0, text: 'Among, he is popular among the students'},
+{start: 204.0, text: 'And, the car is old and dirty'},
+{start: 209.0, text: 'Angry, Andy is angry'},
+{start: 219.0, text: 'One week, 3 day'},
+{start: 224.0, text: 'Animal, a wild animal'},
+{start: 229.0, text: 'Answer, a perfect answer'},
+{start: 234.0, text: 'Any, any people'},
+{start: 238.0, text: 'Apartment, a new apartment'},
+{start: 243.0, text: 'Apple, choose an apple'},
+{start: 247.0, text: 'Arm, make a long arm'},
+{start: 252.0, text: 'Around, set around the fire'},
+{start: 257.0, text: 'Arrive, arrive at a village'},
+{start: 262.0, text: 'As, as a friend'},
+{start: 266.0, text: 'Ask, ask about me'},
+{start: 272.0, text: 'Animal, what\'s your favorite animal?'},
+{start: 276.0, text: 'Answer, he answered'},
+{start: 281.0, text: 'Any, bill doesn\'t have any questions'},
+{start: 286.0, text: 'Apartment, my apartment is on the fifth floor'},
+{start: 293.0, text: 'Apple, this is a delicious apple'},
+{start: 298.0, text: 'Arm, his arm is long'},
+{start: 303.0, text: 'Around, bees are flying around the flowers'},
+{start: 308.0, text: 'Arrive, he always arrives first'},
+{start: 313.0, text: 'As, I respect her as my teacher'},
+{start: 319.0, text: 'Ask, can I ask you a question?'},
+{start: 325.0, text: 'One week, 4 day'},
+{start: 332.0, text: 'At, arrive at the station'},
+{start: 338.0, text: 'And, his end'},
+{start: 343.0, text: 'Autumn, a calm autumn day'},
+{start: 348.0, text: 'Away, a ship far away'},
+{start: 353.0, text: 'Baby, a smile at a baby'},
+{start: 358.0, text: 'Back, back and forth'},
+{start: 362.0, text: 'Bad, bad news'},
+{start: 366.0, text: 'Back, put into a bag'},
+{start: 371.0, text: 'Ball, throw a ball'},
+{start: 375.0, text: 'Balloon, blow up a balloon'},
+{start: 383.0, text: 'At, she is at the front door'},
+{start: 388.0, text: 'And, this is my aunt'},
+{start: 393.0, text: 'Autumn, leaves fall in autumn'},
+{start: 397.0, text: 'Away, he lives two blocks away from here'},
+{start: 403.0, text: 'Baby, Jim is my baby'},
+{start: 408.0, text: 'Back, he scratched his back'},
+{start: 412.0, text: 'Bad, he is a bad monster'},
+{start: 417.0, text: 'Bag, the dog is in the bag'},
+{start: 422.0, text: 'Ball, that is my new ball'},
+{start: 427.0, text: 'Balloon, Andy\'s balloon is long'},
+{start: 437.0, text: 'One week, 5 day'},
+{start: 443.0, text: 'Banana, a bunch of bananas'},
+{start: 448.0, text: 'Band, listen to the band playing'},
+{start: 453.0, text: 'Bank, work at a bank'},
+{start: 457.0, text: 'Base, a solid base'},
+{start: 462.0, text: 'Basket, carry a basket'},
+{start: 467.0, text: 'Bath, take a bath every day'},
+{start: 471.0, text: 'Be, be on guard'},
+{start: 475.0, text: 'Beach, play on the beach'},
+{start: 480.0, text: 'Bear, a black bear'},
+{start: 484.0, text: 'Beautiful, a beautiful girl'},
+{start: 491.0, text: 'Banana, this banana is short'},
+{start: 496.0, text: 'Band, I want to join the band'},
+{start: 501.0, text: 'Bank, the bank is close today'},
+{start: 506.0, text: 'Base, the base of a building is cement'},
+{start: 511.0, text: 'Basket, the basket is empty'},
+{start: 516.0, text: 'Bath, bill needs a bath'},
+{start: 521.0, text: 'Be, he\'ll be waiting for us'},
+{start: 526.0, text: 'Beach, they went to the beach'},
+{start: 530.0, text: 'Bear, the teddy bear is very small'},
+{start: 535.0, text: 'Beautiful, snow white is beautiful'}
+];
+const player = document.getElementById('player');
+const container = document.getElementById('script');
+segments.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'segment';
+  div.id = 'seg-' + i;
+  div.innerHTML = `<span class="time">${formatTime(seg.start)}</span><span class="text">${seg.text}</span>`;
+  div.onclick = () => { player.currentTime = seg.start; player.play(); };
+  container.appendChild(div);
+});
+function formatTime(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+player.addEventListener('timeupdate', () => {
+  const current = player.currentTime;
+  segments.forEach((seg, i) => {
+    const next = segments[i+1];
+    const el = document.getElementById('seg-' + i);
+    if (current >= seg.start && (!next || current < next.start)) {
+      el.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else { el.classList.remove('active'); }
+  });
+});
+</script>
+</body>
+</html>
